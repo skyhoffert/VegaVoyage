@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 203076255892272923}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.06, y: 0.06, z: 1}
+  m_LocalScale: {x: 0.08, y: 0.08, z: 1}
   m_Children: []
   m_Father: {fileID: 203076255952185017}
   m_RootOrder: 0
@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 203076255952185017}
   - component: {fileID: 203076255952185016}
   - component: {fileID: 181330192}
+  - component: {fileID: 955337828}
   m_Layer: 0
   m_Name: Sintzer
   m_TagString: Untagged
@@ -137,11 +138,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.1498796, y: 0.28997785}
-      - {x: -0.23424155, y: 0.15268181}
-      - {x: -0.007816613, y: -0.2357881}
-      - {x: 0.2424109, y: 0.20064759}
-      - {x: 0.1430101, y: 0.28296125}
+    - - {x: -0.20847106, y: 0.40711543}
+      - {x: -0.31236362, y: 0.18522005}
+      - {x: -0.0013065338, y: -0.31387976}
+      - {x: 0.29449224, y: 0.14207897}
+      - {x: 0.21462178, y: 0.4000988}
 --- !u!50 &181330192
 Rigidbody2D:
   serializedVersion: 4
@@ -163,3 +164,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &955337828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203076255952184998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6c9d3d11765b147be02dd5f8b13a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 30
+  maxhp: 30
+  can_damage: 1
+  can_heal: 1
+  iframes_duration: 1
+  iframes_minalpha: 0.5
+  sr: {fileID: 203076255892272925}

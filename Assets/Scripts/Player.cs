@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     struct PlayerState{
         public bool thrust_enabled;
         public bool turn_enabled;
+        public bool plasmaball_enabled;
     }
 
     private PlayerState state;
@@ -16,12 +17,17 @@ public class Player : MonoBehaviour
     private ParticleSystem particle_system;
     private ParticleSystem.EmissionModule particle_emission;
 
+    public GameObject plasmaball;
+
     private Rigidbody2D rb2D;
 
     private float thrust_force = 100.0f;
     private float rotation_speed = 5.0f;
 
     private float max_velocity = 8.0f;
+
+    private float plasmaball_velocity_magnitude = 20.0f;
+    private float plasmaball_damage = 10.1f;
     
     private Vector2 forward;
 
@@ -31,6 +37,7 @@ public class Player : MonoBehaviour
         // start off being able to move
         this.state.thrust_enabled = true;
         this.state.turn_enabled = true;
+        this.state.plasmaball_enabled = true;
 
         this.forward = new Vector2(1, 0);
 
@@ -97,6 +104,15 @@ public class Player : MonoBehaviour
         // clamp velocity to below max velocity
         if (this.rb2D.velocity.magnitude > this.max_velocity){
             this.rb2D.AddForce((this.max_velocity - this.rb2D.velocity.magnitude) * this.rb2D.velocity * this.thrust_force);
+        }
+
+        // handle firing plasma balls
+        if (this.state.plasmaball_enabled){
+            if (Input.GetButtonDown("b1")){
+                GameObject g = Instantiate(plasmaball, transform.position + new Vector3(this.forward.x, this.forward.y, 0), transform.rotation) as GameObject;
+                g.SendMessage("SetVelocity", this.forward * this.plasmaball_velocity_magnitude);
+                g.SendMessage("SetDamage", this.plasmaball_damage);
+            }
         }
 
     }

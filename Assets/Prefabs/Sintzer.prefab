@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203076255892272923}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.08, y: 0.08, z: 1}
   m_Children: []
   m_Father: {fileID: 203076255952185017}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &203076255892272925
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 203076255952185016}
   - component: {fileID: 181330192}
   - component: {fileID: 955337828}
+  - component: {fileID: 3418235973417553726}
   m_Layer: 0
   m_Name: Sintzer
   m_TagString: Untagged
@@ -138,11 +139,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.20847106, y: 0.40711543}
-      - {x: -0.31236362, y: 0.18522005}
-      - {x: -0.0013065338, y: -0.31387976}
-      - {x: 0.29449224, y: 0.14207897}
-      - {x: 0.21462178, y: 0.4000988}
+    - - {x: -0.3551576, y: 0.25038144}
+      - {x: -0.36800337, y: -0.22936668}
+      - {x: -0.18340039, y: -0.28860006}
+      - {x: 0.3450737, y: 0.00051274896}
+      - {x: -0.1596818, y: 0.2939241}
 --- !u!50 &181330192
 Rigidbody2D:
   serializedVersion: 4
@@ -183,3 +184,16 @@ MonoBehaviour:
   iframes_duration: 1
   iframes_minalpha: 0.5
   sr: {fileID: 203076255892272925}
+  coll: {fileID: 203076255952185016}
+--- !u!114 &3418235973417553726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203076255952184998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17de267d97760f4d8e7cb220e3c719d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         this.state.thrust_enabled = true;
         this.state.turn_enabled = true;
 
-        this.forward = new Vector2(0, 0);
+        this.forward = new Vector2(1, 0);
 
         this.exhaust.SetActive(false);
 

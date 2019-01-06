@@ -5,7 +5,7 @@ using UnityEngine;
 public class Background_SlightOffset : MonoBehaviour
 {
 
-    private float ratio = 0.98f;
+    private float ratio = 0.95f;
 
     // Update is called once per frame
     void Update()

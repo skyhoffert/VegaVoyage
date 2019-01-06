@@ -13,12 +13,12 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - FarBG
+  - MidBG
+  - NearBG
+  - GameSpace
+  - FarFG
+  - NearFG
   - 
   - 
   - 

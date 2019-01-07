@@ -4964,3 +4964,5 @@ MonoBehaviour:
   coll: {fileID: 8353142032339104346}
   damage_particle_system: {fileID: 4000441247035079257, guid: 65c6f7c49bc74724eb671b7e947573a8,
     type: 3}
+  sp1: {fileID: 0}
+  sp1_missing: {fileID: 0}

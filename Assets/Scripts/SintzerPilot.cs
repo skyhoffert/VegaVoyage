@@ -16,7 +16,7 @@ public class SintzerPilot : MonoBehaviour
     private SintzerState state;
 
     private Vector2 forward;
-    private float rotation_speed = 9.0f;
+    private float rotation_speed = 10.0f;
 
     private GameObject player;
 
@@ -24,11 +24,12 @@ public class SintzerPilot : MonoBehaviour
 
     private float lunge_range = 8.0f;
     private float lunge_time = 0.0f;
-    private float lunge_force = 1000.0f;
+    private float lunge_force = 1200.0f;
     private float lunge_duration = 1.0f;
-    private float lunge_maxangle = 4.0f;
+    private float lunge_maxangle = 4.0f; // makes sure sintzer is looking directly at player before lunging
 
     private float thrust_force = 50.0f;
+    private float thrust_maxangle = 35.0f; // makes sure sintzer is facing player before thrusting
     private float max_velocity = 4.0f;
 
     private float collision_damage = 10.0f;
@@ -61,6 +62,9 @@ public class SintzerPilot : MonoBehaviour
         // find distance to player
         float y_dist = player.transform.position.y - this.transform.position.y;
         float x_dist = player.transform.position.x - this.transform.position.x;
+        
+        // angle between forward and player
+        float angle_to = 0;
 
         if (this.state.turn_enabled){
             // calculate forward direction
@@ -76,7 +80,8 @@ public class SintzerPilot : MonoBehaviour
             Quaternion target = Quaternion.Euler(dir);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, target, Time.deltaTime * this.rotation_speed);
 
-            this.state.lunge_ready = Mathf.Abs(Vector2.Angle(forward, new Vector2(x_dist, y_dist))) < this.lunge_maxangle;
+            angle_to = Vector2.Angle(forward, new Vector2(x_dist, y_dist));
+            this.state.lunge_ready = Mathf.Abs(angle_to) < this.lunge_maxangle;
         }
 
         if (this.state.lunge_enabled){
@@ -90,15 +95,12 @@ public class SintzerPilot : MonoBehaviour
                     this.lunge_time = Time.time;
 
                     this.rb2d.AddForce(this.forward * this.lunge_force);
-                    
-                    Debug.Log("sintzer lunging");
                 }
             }
         }
 
-
         // check the thrust_enabled state - act if it is active
-        if (this.state.thrust_enabled && !this.state.lunging){
+        if (this.state.thrust_enabled && !this.state.lunging && angle_to < this.thrust_maxangle){
             this.rb2d.AddForce(this.forward * this.thrust_force);
             
             // clamp velocity to below max velocity

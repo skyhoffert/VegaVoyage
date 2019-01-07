@@ -9,9 +9,10 @@ public class Player : MonoBehaviour
         public bool thrust_enabled;
         public bool turn_enabled;
         public bool plasmaball_enabled;
-        public bool can_damage;
-        public bool can_heal;
+        public bool damage_enabled;
+        public bool heal_enabled;
         public bool iframes_enabled;
+        public bool shield_rechage_enabled;
     }
 
     private PlayerState state;
@@ -20,6 +21,13 @@ public class Player : MonoBehaviour
     public ParticleSystem particle_system;
 
     public GameObject plasmaball;
+    
+    public SpriteRenderer sr;
+    public PolygonCollider2D coll;
+    public GameObject damage_particle_system;
+
+    public GameObject sp1;
+    public GameObject sp1_missing;
 
     private Rigidbody2D rb2d;
 
@@ -36,13 +44,13 @@ public class Player : MonoBehaviour
     private float shield_points;
     private float max_shield_points;
 
+    // variables handling invulnerability frames
     private float iframes_starttime = 0.0f;
     private float iframes_duration = 1.0f;
     private float iframes_minalpha = 0.4f;
 
-    public SpriteRenderer sr;
-    public PolygonCollider2D coll;
-    public GameObject damage_particle_system;
+    private float shield_recharge_time = 5.0f;
+    private float latest_damage_time = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -51,9 +59,10 @@ public class Player : MonoBehaviour
         this.state.thrust_enabled = true;
         this.state.turn_enabled = true;
         this.state.plasmaball_enabled = true;
-        this.state.can_damage = true;
-        this.state.can_heal = true;
+        this.state.damage_enabled = true;
+        this.state.heal_enabled = true;
         this.state.iframes_enabled = false;
+        this.state.shield_rechage_enabled = true;
 
         this.forward = new Vector2(1, 0);
 
@@ -77,9 +86,7 @@ public class Player : MonoBehaviour
             if (Time.time - this.iframes_starttime > this.iframes_duration){
                 this.state.iframes_enabled = false;
                 
-                Color tmp = this.sr.color;
-                tmp.a = 1.0f;
-                this.sr.color = tmp;
+                ChangeAlphaOfImage(1.0f);
 
                 this.coll.enabled = true;
             }
@@ -119,6 +126,10 @@ public class Player : MonoBehaviour
                 // TODO - broken
                 //this.particle_system.Play(true);
                 this.particle_system.gameObject.SetActive(true);
+            } else if (ax3 < -0.1){
+                // if left trigger is being pressed
+                // TODO - this probably won't be in the game
+                this.rb2d.AddForce(-this.forward * this.thrust_force / 2);
             } else {
                 if (this.exhaust.activeSelf){
                     this.exhaust.SetActive(false);
@@ -127,10 +138,6 @@ public class Player : MonoBehaviour
                     //this.particle_system.Stop(false, ParticleSystemStopBehavior.StopEmitting);
                     this.particle_system.gameObject.SetActive(false);
                 }
-            }
-
-            if (ax3 < -0.1){
-                this.rb2d.AddForce(-this.forward * this.thrust_force / 2);
             }
         }
         
@@ -147,10 +154,24 @@ public class Player : MonoBehaviour
                 g.SendMessage("SetDamage", this.plasmaball_damage);
             }
         }
+
+        // recharge shield points if possible
+        if (this.state.shield_rechage_enabled){
+            if (this.shield_points < this.max_shield_points){
+                if (Time.time - this.latest_damage_time > this.shield_recharge_time){
+                    this.latest_damage_time = Time.time;
+                    this.shield_points++;
+                    this.sp1.SetActive(true);
+                }
+            }
+        }
     }
     
     public void ApplyRawDamage(float damage){
-        if (!this.state.iframes_enabled && this.state.can_damage){
+        // don't do anything if damage is less than 0
+        if (damage < 0){ return; }
+
+        if (!this.state.iframes_enabled && this.state.damage_enabled){
             // create a damage particle system
             GameObject dmg = Instantiate(damage_particle_system, transform.position, Quaternion.identity);
 
@@ -161,18 +182,27 @@ public class Player : MonoBehaviour
                 this.iframes_starttime = Time.time;
                 this.state.iframes_enabled = true;
 
-                Color tmp = this.sr.color;
-                tmp.a = iframes_minalpha;
-                this.sr.color = tmp;
-
                 this.coll.enabled = false;
-            } else if (this.shield_points == 0){
-                Destroy(this.gameObject);
-                
-                Debug.Log(this.gameObject + " has been destroyed");
 
+                this.sp1.SetActive(false);
+
+                this.latest_damage_time = Time.time;
+
+                ChangeAlphaOfImage(this.iframes_minalpha);
+            } else if (this.shield_points == 0){
+                this.gameObject.SetActive(false);
+
+                Debug.Log("Player died.");
             }
         }
+    }
+
+    // modify the alpha value of the player's ship image
+    // changing this value is used to represent when player has iframes or not
+    private void ChangeAlphaOfImage(float a){
+        Color tmp = this.sr.color;
+        tmp.a = a;
+        this.sr.color = tmp;
     }
 
 }

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6617625111980632847}
   - component: {fileID: 6617625111980632846}
   - component: {fileID: 8460563270352010564}
+  - component: {fileID: 6555538395454887076}
+  - component: {fileID: 6736253638675346682}
   m_Layer: 0
   m_Name: PlasmaBall
   m_TagString: Untagged
@@ -81,6 +83,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 107532387809a8d4ab39e5e714211100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6555538395454887076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617625111980632841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45b6ff276533024cb7eeb2f464073ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 2
+--- !u!114 &6736253638675346682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617625111980632841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6494e624261b4444f8e288cb57d03a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6617625112568778992

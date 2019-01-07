@@ -181,10 +181,12 @@ MonoBehaviour:
   maxhp: 30
   can_damage: 1
   can_heal: 1
-  iframes_duration: 1
+  iframes_duration: 0.5
   iframes_minalpha: 0.5
   sr: {fileID: 203076255892272925}
   coll: {fileID: 203076255952185016}
+  damage_particle_system: {fileID: 3231635402755197026, guid: d88e0ea12476df8448a2a425b907185d,
+    type: 3}
 --- !u!114 &3418235973417553726
 MonoBehaviour:
   m_ObjectHideFlags: 0

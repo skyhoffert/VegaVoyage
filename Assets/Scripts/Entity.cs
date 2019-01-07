@@ -15,6 +15,7 @@ public class Entity : MonoBehaviour {
 
     public SpriteRenderer sr;
     public PolygonCollider2D coll;
+    public GameObject damage_particle_system;
 
     void Start(){
     }
@@ -35,10 +36,14 @@ public class Entity : MonoBehaviour {
     
     public void ApplyRawDamage(float damage){
         if (!this.iframes_enabled && this.can_damage){
+            // create a damage particle system
+            GameObject dmg = Instantiate(damage_particle_system, transform.position, Quaternion.identity);
+
+            // subtract damage and handle the damage
             this.health -= damage;
-            
+
             if (this.health < 0){ this.health = 0; }
-            
+
             if (this.health <= 0){
                 Destroy(this.gameObject);
                 

@@ -38,7 +38,7 @@ public class PlasmaBall : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.collider.gameObject.SendMessage("ApplyRawDamage", this.damage);
+        collision.gameObject.SendMessage("ApplyRawDamage", this.damage);
 
         Destroy(this.gameObject);
     }

@@ -13,11 +13,13 @@ public class Entity : MonoBehaviour {
     public float iframes_duration = 1.0f;
     public float iframes_minalpha = 0.2f;
 
-    public SpriteRenderer sr;
+    private SpriteRenderer sr;
+
     public PolygonCollider2D coll;
     public GameObject damage_particle_system;
 
     void Start(){
+        this.sr = GetComponent<SpriteRenderer>();
     }
 
     void Update(){

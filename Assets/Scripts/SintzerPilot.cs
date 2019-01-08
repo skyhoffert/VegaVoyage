@@ -46,6 +46,8 @@ public class SintzerPilot : MonoBehaviour
         this.state.lunge_ready = false;
 
         this.rb2d = GetComponent<Rigidbody2D>();
+
+        this.forward = new Vector2(0, 1);
     }
 
     // Update is called once per frame
@@ -68,12 +70,14 @@ public class SintzerPilot : MonoBehaviour
 
         if (this.state.turn_enabled){
             // calculate forward direction
-            forward.x = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
-            forward.y = -Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
-            forward.Normalize();
+            this.forward.x = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
+            this.forward.y = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
+            this.forward.Normalize();
             
             // calculate how much to turn
-            float rotation_amount = Mathf.Atan2(y_dist, x_dist) * Mathf.Rad2Deg + Mathf.PI/2;
+            float rotation_amount = Mathf.Atan2(y_dist, x_dist) * Mathf.Rad2Deg - Mathf.PI/2;
+
+            Debug.Log(this.forward);
             
             // Lerp towards that direction
             Vector3 dir = new Vector3(0.0f, 0.0f, rotation_amount);

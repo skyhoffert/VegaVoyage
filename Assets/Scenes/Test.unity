@@ -854,5 +854,11 @@ PrefabInstance:
       propertyPath: sp1_missing
       value: 
       objectReference: {fileID: 161060585}
+    - target: {fileID: 8353142032339104344, guid: e9bd272247004694fa3e3a6ce560017f,
+        type: 3}
+      propertyPath: plasmaball_charge
+      value: 
+      objectReference: {fileID: 3564597071673130698, guid: 2360d42b26642ef48bf2742c51eb7f8b,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9bd272247004694fa3e3a6ce560017f, type: 3}

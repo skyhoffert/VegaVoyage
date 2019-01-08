@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     public PolygonCollider2D coll;
     public GameObject damage_particle_system;
 
+    public GameObject plasmaball_charge;
+
     public GameObject sp1;
     public GameObject sp1_missing;
 
@@ -38,6 +40,10 @@ public class Player : MonoBehaviour
 
     private float plasmaball_velocity_magnitude = 20.0f;
     private float plasmaball_damage = 10.1f;
+    private float plasmaball_chargetime = 0.1f;
+    private float plasmaball_firetime = 0.0f;
+    private float plasmaball_cooldown = 0.7f;
+    private bool plasmaball_ready = true;
     
     private Vector2 forward;
     
@@ -148,10 +154,25 @@ public class Player : MonoBehaviour
 
         // handle firing plasma balls
         if (this.state.plasmaball_enabled){
-            if (Input.GetButtonDown("b1")){
-                GameObject g = Instantiate(plasmaball, transform.position + new Vector3(this.forward.x, this.forward.y, 0), transform.rotation) as GameObject;
-                g.SendMessage("SetVelocity", this.forward * this.plasmaball_velocity_magnitude);
-                g.SendMessage("SetDamage", this.plasmaball_damage);
+            if (this.plasmaball_ready){
+                if (Input.GetButtonDown("b1")){
+                    if (Time.time - this.plasmaball_firetime > this.plasmaball_cooldown){
+                        this.plasmaball_firetime = Time.time;
+                        this.plasmaball_ready = false;
+
+                        GameObject g = Instantiate(plasmaball_charge, this.transform.position + new Vector3(this.forward.x/2, this.forward.y/2, 0), this.transform.rotation) as GameObject;
+                        g.transform.parent = this.transform;
+                    }
+                }
+            }
+            
+            if (!this.plasmaball_ready){
+                if (Time.time - this.plasmaball_firetime > this.plasmaball_chargetime){
+                    GameObject g = Instantiate(plasmaball, this.transform.position + new Vector3(this.forward.x, this.forward.y, 0), transform.rotation) as GameObject;
+                    g.SendMessage("SetVelocity", this.forward * this.plasmaball_velocity_magnitude);
+                    g.SendMessage("SetDamage", this.plasmaball_damage);
+                    this.plasmaball_ready = true;
+                }
             }
         }
 

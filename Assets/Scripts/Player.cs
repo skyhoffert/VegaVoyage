@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
         public bool heal_enabled;
         public bool iframes_enabled;
         public bool shield_rechage_enabled;
+        public bool dash_enabled;
     }
 
     private PlayerState state;
@@ -45,6 +46,8 @@ public class Player : MonoBehaviour
     private float plasmaball_cooldown = 0.7f;
     private bool plasmaball_ready = true;
     private float plasmaball_spawnoffsetfactor = 0.8f;
+
+    private float dash_magnitude = 2.0f;
     
     private Vector2 forward;
     
@@ -70,6 +73,7 @@ public class Player : MonoBehaviour
         this.state.heal_enabled = true;
         this.state.iframes_enabled = false;
         this.state.shield_rechage_enabled = true;
+        this.state.dash_enabled = true;
 
         this.forward = new Vector2(1, 0);
 
@@ -175,6 +179,13 @@ public class Player : MonoBehaviour
                     g.SendMessage("SetDamage", this.plasmaball_damage);
                     this.plasmaball_ready = true;
                 }
+            }
+        }
+
+        if (this.state.dash_enabled){
+            if (Input.GetButtonDown("b2")){
+                this.transform.position += new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
+                this.rb2d.velocity = this.rb2d.velocity.magnitude * this.forward;
             }
         }
 

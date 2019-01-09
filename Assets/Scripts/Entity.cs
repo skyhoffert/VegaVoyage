@@ -12,7 +12,7 @@ public class Entity : MonoBehaviour {
     private float iframes_starttime = 0.0f;
     private float iframes_duration = 10.0f;
     public float iframes_duration_perdamagepoint = 0.1f;
-    public float iframes_duration_max = 1.0f;
+    public float iframes_duration_max = 0.5f;
     public float iframes_minalpha = 0.2f;
 
     private SpriteRenderer sr;

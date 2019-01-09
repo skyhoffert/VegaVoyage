@@ -632,7 +632,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 566342674bea8e143b5a4139f79e2086, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0791355901117db4fb9fc80e489d87d6, type: 3}
   m_Color: {r: 0.53099996, g: 0.53099996, b: 0.53099996, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -669,12 +669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e8e040028ceba4daa6f6285678c619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!198 &1209464177 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8353142031942445634, guid: e9bd272247004694fa3e3a6ce560017f,
-    type: 3}
-  m_PrefabInstance: {fileID: 8353142031619810558}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1288182045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,10 +1293,5 @@ PrefabInstance:
       propertyPath: sp1_missing
       value: 
       objectReference: {fileID: 161060585}
-    - target: {fileID: 8353142032339104344, guid: e9bd272247004694fa3e3a6ce560017f,
-        type: 3}
-      propertyPath: particle_system
-      value: 
-      objectReference: {fileID: 1209464177}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9bd272247004694fa3e3a6ce560017f, type: 3}

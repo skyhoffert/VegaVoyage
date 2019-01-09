@@ -10,7 +10,9 @@ public class Entity : MonoBehaviour {
     private bool iframes_enabled = false;
 
     private float iframes_starttime = 0.0f;
-    public float iframes_duration = 1.0f;
+    private float iframes_duration = 10.0f;
+    public float iframes_duration_perdamagepoint = 0.1f;
+    public float iframes_duration_max = 1.0f;
     public float iframes_minalpha = 0.2f;
 
     private SpriteRenderer sr;
@@ -53,6 +55,12 @@ public class Entity : MonoBehaviour {
             } else {
                 this.iframes_starttime = Time.time;
                 this.iframes_enabled = true;
+
+                // handle iframe duration - changes with damage amount up to a max
+                this.iframes_duration = damage * this.iframes_duration_perdamagepoint;
+                if (this.iframes_duration > this.iframes_duration_max){
+                    this.iframes_duration = this.iframes_duration_max;
+                }
 
                 Color tmp = this.sr.color;
                 tmp.a = iframes_minalpha;

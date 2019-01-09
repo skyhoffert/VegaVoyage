@@ -27,6 +27,9 @@ public class SintzerPilot : MonoBehaviour
     private float lunge_force = 1200.0f;
     private float lunge_duration = 1.0f;
     private float lunge_maxangle = 4.0f; // makes sure sintzer is looking directly at player before lunging
+    private float lunge_chargeduration = 0.5f;
+    private float lunge_chargetime = 0.0f;
+    private bool lunge_charging = false;
 
     private float thrust_force = 50.0f;
     private float thrust_maxangle = 35.0f; // makes sure sintzer is facing player before thrusting
@@ -87,23 +90,35 @@ public class SintzerPilot : MonoBehaviour
         }
 
         if (this.state.lunge_enabled){
-            if (this.state.lunge_ready){
-                float dist = (new Vector2(x_dist, y_dist)).magnitude;
-                
-                if (dist <= lunge_range){
-                    this.state.lunging = true;
-                    this.state.turn_enabled = false;
-                    this.state.lunge_enabled = false;
-                    this.lunge_time = Time.time;
+            if (this.state.lunge_ready && !this.lunge_charging){
+                this.rb2d.velocity = Vector2.zero;
+                this.lunge_charging = true;
+                this.lunge_chargetime = Time.time;
+            }
+        }
 
-                    this.rb2d.AddForce(this.forward * this.lunge_force);
-                }
+        if (this.lunge_charging){
+            if (Time.time - this.lunge_chargetime > this.lunge_chargeduration){
+                    this.lunge_charging = false;
+                    float dist = (new Vector2(x_dist, y_dist)).magnitude;
+                    
+                    if (dist <= lunge_range){
+                        this.state.lunging = true;
+                        this.state.turn_enabled = false;
+                        this.state.lunge_enabled = false;
+                        this.lunge_time = Time.time;
+
+                        this.rb2d.AddForce(this.forward * this.lunge_force);
+                    }
             }
         }
 
         // check the thrust_enabled state - act if it is active
         if (this.state.thrust_enabled && !this.state.lunging && angle_to < this.thrust_maxangle){
-            this.rb2d.AddForce(this.forward * this.thrust_force);
+                Vector2 toplayer = new Vector2(x_dist, y_dist);
+                Vector2 intercept = toplayer - rb2d.velocity;
+                intercept.Normalize();
+                this.rb2d.AddForce(intercept * this.thrust_force);
             
             // clamp velocity to below max velocity
             if (this.rb2d.velocity.magnitude > this.max_velocity){

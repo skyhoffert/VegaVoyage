@@ -46,7 +46,6 @@ public class MuzzPilot : MonoBehaviour
             if (toplayer.magnitude < this.detect_distance){
                 Vector2 intercept = toplayer - rb2d.velocity;
                 intercept.Normalize();
-                Debug.Log(intercept);
                 this.rb2d.AddForce(intercept * this.thrust_force);
                 
                 // clamp velocity to below max velocity

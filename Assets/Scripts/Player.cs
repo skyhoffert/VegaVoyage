@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
 
     private float thrust_force = 100.0f;
-    private float rotation_speed = 5.0f;
+    private float rotation_speed = 4.0f;
 
     private float max_velocity = 8.0f;
 

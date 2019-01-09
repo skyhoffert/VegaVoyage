@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     private float plasmaball_firetime = 0.0f;
     private float plasmaball_cooldown = 0.7f;
     private bool plasmaball_ready = true;
+    private float plasmaball_spawnoffsetfactor = 0.8f;
     
     private Vector2 forward;
     
@@ -168,7 +169,8 @@ public class Player : MonoBehaviour
             
             if (!this.plasmaball_ready){
                 if (Time.time - this.plasmaball_firetime > this.plasmaball_chargetime){
-                    GameObject g = Instantiate(plasmaball, this.transform.position + new Vector3(this.forward.x, this.forward.y, 0), transform.rotation) as GameObject;
+                    Vector3 offset = new Vector3(this.forward.x * this.plasmaball_spawnoffsetfactor, this.forward.y * this.plasmaball_spawnoffsetfactor, 0);
+                    GameObject g = Instantiate(plasmaball, this.transform.position + offset, transform.rotation) as GameObject;
                     g.SendMessage("SetVelocity", this.forward * this.plasmaball_velocity_magnitude);
                     g.SendMessage("SetDamage", this.plasmaball_damage);
                     this.plasmaball_ready = true;

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 203076255952184998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 1}
+  m_LocalScale: {x: 0.09, y: 0.09, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -104,7 +104,6 @@ MonoBehaviour:
   can_heal: 1
   iframes_duration: 0.5
   iframes_minalpha: 0.5
-  sr: {fileID: 0}
   coll: {fileID: 203076255952185016}
   damage_particle_system: {fileID: 3231635402755197026, guid: d88e0ea12476df8448a2a425b907185d,
     type: 3}

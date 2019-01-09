@@ -37,7 +37,7 @@ public class SintzerPilot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        this.player = GameObject.FindWithTag("Player");
 
         this.state.lunge_enabled = true;
         this.state.thrust_enabled = true;
@@ -75,9 +75,7 @@ public class SintzerPilot : MonoBehaviour
             this.forward.Normalize();
             
             // calculate how much to turn
-            float rotation_amount = Mathf.Atan2(y_dist, x_dist) * Mathf.Rad2Deg - Mathf.PI/2;
-
-            Debug.Log(this.forward);
+            float rotation_amount = Mathf.Atan2(y_dist, x_dist) * Mathf.Rad2Deg - 90;
             
             // Lerp towards that direction
             Vector3 dir = new Vector3(0.0f, 0.0f, rotation_amount);

@@ -23,7 +23,7 @@ public class PlasmaBall : MonoBehaviour
     {
         if (!newvel_wasset){
             newvel_wasset = true;
-            this.rb2D.velocity = newvel;
+            this.rb2D.velocity += newvel;
         }
     }
 

@@ -4884,7 +4884,7 @@ Transform:
   m_GameObject: {fileID: 8353142032339104348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 8353142031099102274}
   - {fileID: 8353142031541009261}
@@ -4963,6 +4963,8 @@ MonoBehaviour:
   sr: {fileID: 8353142031099102275}
   coll: {fileID: 8353142032339104346}
   damage_particle_system: {fileID: 4000441247035079257, guid: 65c6f7c49bc74724eb671b7e947573a8,
+    type: 3}
+  plasmaball_charge: {fileID: 3564597071673130698, guid: 2360d42b26642ef48bf2742c51eb7f8b,
     type: 3}
   sp1: {fileID: 0}
   sp1_missing: {fileID: 0}

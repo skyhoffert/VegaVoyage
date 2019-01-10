@@ -22,7 +22,7 @@ public class SintzerPilot : MonoBehaviour
 
     private Rigidbody2D rb2d;
 
-    private float lunge_range = 8.0f;
+    private float lunge_range = 6.0f;
     private float lunge_time = 0.0f;
     private float lunge_force = 1200.0f;
     private float lunge_duration = 1.0f;

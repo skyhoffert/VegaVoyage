@@ -32,8 +32,6 @@ public class Entity : MonoBehaviour {
                 Color tmp = this.sr.color;
                 tmp.a = 1.0f;
                 this.sr.color = tmp;
-
-                this.coll.enabled = true;
             }
         }
     }
@@ -65,8 +63,6 @@ public class Entity : MonoBehaviour {
                 Color tmp = this.sr.color;
                 tmp.a = iframes_minalpha;
                 this.sr.color = tmp;
-
-                this.coll.enabled = false;
             }
         }
     }

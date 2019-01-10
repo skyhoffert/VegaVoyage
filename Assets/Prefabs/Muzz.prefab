@@ -153,9 +153,9 @@ MonoBehaviour:
   maxhp: 10
   can_damage: 1
   can_heal: 1
-  iframes_duration_perdamagepoint: 0.1
-  iframes_duration_max: 0.5
-  iframes_minalpha: 0.6
+  iframes_duration_perdamagepoint: 0.08
+  iframes_duration_max: 0.3
+  iframes_minalpha: 0.7
   coll: {fileID: 1642082764}
   damage_particle_system: {fileID: 3231635402755197026, guid: d88e0ea12476df8448a2a425b907185d,
     type: 3}

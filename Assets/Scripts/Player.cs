@@ -52,16 +52,17 @@ public class Player : MonoBehaviour
     private bool plasmaball_ready = true;
     private float plasmaball_spawnoffsetfactor = 0.8f;
 
-    private float laser_damage = 4.5f;
+    private float laser_damage = 3.8f;
     private bool laser_firing = false;
     private bool laser_charging = false;
     private float laser_range = 5.0f;
     private float laser_renderer_increasefactor = 1.2f;
     private float laser_chargetime = 0.5f;
+    private float laser_duration = 2.5f;
     private float laser_firetime = 0.0f;
     private float laser_maxvelocity = 0.3f * max_velocity_cap;
     private float laser_maxthrust = 0.3f * max_thrust_force;
-    private float laser_maxrotation = 0.4f * max_rotation_speed;
+    private float laser_maxrotation = 0.25f * max_rotation_speed;
 
     private float dash_magnitude = 2.0f;
     
@@ -237,14 +238,27 @@ public class Player : MonoBehaviour
                     this.laser_renderer.transform.localScale = new Vector3(this.laser_range * this.laser_renderer_increasefactor, 1, 1);
                     this.laser_renderer.SetActive(true);
                     this.laser_firing = true;
+                    this.laser_charging = false;
             }
         }
 
         if (this.laser_firing){
-            RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.laser_range);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(this.laser_renderer.transform.position, this.forward, this.laser_range);
             
-            if (hit){
-                hit.collider.gameObject.SendMessage("ApplyRawDamage", this.laser_damage);
+            for (int i = 0; i < hits.Length; i++){
+                if (hits[i]){
+                    hits[i].collider.gameObject.SendMessage("ApplyRawDamage", this.laser_damage);
+                }
+            }
+
+            if (Time.time - this.laser_firetime > this.laser_duration){
+                this.laser_firing = false;
+
+                this.laser_renderer.SetActive(false);
+
+                this.max_velocity = max_velocity_cap;
+                this.thrust_force = max_thrust_force;
+                this.rotation_speed = max_rotation_speed;
             }
         }
 
@@ -294,6 +308,18 @@ public class Player : MonoBehaviour
 
                 Debug.Log("Player died.");
             }
+        }
+    }
+
+    public void ApplyRawHealing(float healing){
+        if (this.heal_enabled){
+            this.shield_points++;
+
+            if (this.shield_points > this.max_shield_points){
+                this.shield_points = this.max_shield_points;
+            }
+
+            // TODO - more stuff
         }
     }
 

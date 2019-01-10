@@ -91,25 +91,25 @@ public class SintzerPilot : MonoBehaviour
 
         if (this.state.lunge_enabled){
             if (this.state.lunge_ready && !this.lunge_charging){
-                this.rb2d.velocity = Vector2.zero;
-                this.lunge_charging = true;
-                this.lunge_chargetime = Time.time;
+                float dist = (new Vector2(x_dist, y_dist)).magnitude;
+                if (dist <= lunge_range){
+                    this.rb2d.velocity = Vector2.zero;
+                    this.lunge_charging = true;
+                    this.lunge_chargetime = Time.time;
+                }
             }
         }
 
         if (this.lunge_charging){
             if (Time.time - this.lunge_chargetime > this.lunge_chargeduration){
                     this.lunge_charging = false;
-                    float dist = (new Vector2(x_dist, y_dist)).magnitude;
                     
-                    if (dist <= lunge_range){
-                        this.state.lunging = true;
-                        this.state.turn_enabled = false;
-                        this.state.lunge_enabled = false;
-                        this.lunge_time = Time.time;
+                    this.state.lunging = true;
+                    this.state.turn_enabled = false;
+                    this.state.lunge_enabled = false;
+                    this.lunge_time = Time.time;
 
-                        this.rb2d.AddForce(this.forward * this.lunge_force);
-                    }
+                    this.rb2d.AddForce(this.forward * this.lunge_force);
             }
         }
 

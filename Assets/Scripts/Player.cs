@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // structure to hold state information about the player
-    struct PlayerState{
-        public bool thrust_enabled;
-        public bool turn_enabled;
-        public bool plasmaball_enabled;
-        public bool damage_enabled;
-        public bool heal_enabled;
-        public bool iframes_enabled;
-        public bool shield_rechage_enabled;
-        public bool dash_enabled;
-    }
-
-    private PlayerState state;
+    // hold state information about player
+    private bool thrust_enabled;
+    private bool turn_enabled;
+    private bool plasmaball_enabled;
+    private bool damage_enabled;
+    private bool heal_enabled;
+    private bool iframes_enabled;
+    private bool shield_rechage_enabled;
+    private bool dash_enabled;
+    private bool laser_enabled;
 
     public GameObject exhaust;
     public ParticleSystem particle_system;
@@ -29,15 +26,23 @@ public class Player : MonoBehaviour
 
     public GameObject plasmaball_charge;
 
+    public GameObject laser_charge;
+
+    public GameObject laser_renderer;
+
     public GameObject sp1;
     public GameObject sp1_missing;
 
     private Rigidbody2D rb2d;
 
-    private float thrust_force = 100.0f;
-    private float rotation_speed = 4.0f;
+    private static float max_thrust_force = 100.0f;
+    private float thrust_force = max_thrust_force;
 
-    private float max_velocity = 8.0f;
+    private static float max_rotation_speed = 4.0f;
+    private float rotation_speed = max_rotation_speed;
+
+    private static float max_velocity_cap = 8.0f;
+    private float max_velocity = max_velocity_cap;
 
     private float plasmaball_velocity_magnitude = 20.0f;
     private float plasmaball_damage = 10.1f;
@@ -46,6 +51,17 @@ public class Player : MonoBehaviour
     private float plasmaball_cooldown = 0.7f;
     private bool plasmaball_ready = true;
     private float plasmaball_spawnoffsetfactor = 0.8f;
+
+    private float laser_damage = 4.5f;
+    private bool laser_firing = false;
+    private bool laser_charging = false;
+    private float laser_range = 5.0f;
+    private float laser_renderer_increasefactor = 1.2f;
+    private float laser_chargetime = 0.5f;
+    private float laser_firetime = 0.0f;
+    private float laser_maxvelocity = 0.3f * max_velocity_cap;
+    private float laser_maxthrust = 0.3f * max_thrust_force;
+    private float laser_maxrotation = 0.4f * max_rotation_speed;
 
     private float dash_magnitude = 2.0f;
     
@@ -66,14 +82,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         // start off being able to move
-        this.state.thrust_enabled = true;
-        this.state.turn_enabled = true;
-        this.state.plasmaball_enabled = true;
-        this.state.damage_enabled = true;
-        this.state.heal_enabled = true;
-        this.state.iframes_enabled = false;
-        this.state.shield_rechage_enabled = true;
-        this.state.dash_enabled = true;
+        this.thrust_enabled = true;
+        this.turn_enabled = true;
+        this.plasmaball_enabled = true;
+        this.damage_enabled = true;
+        this.heal_enabled = true;
+        this.iframes_enabled = false;
+        this.shield_rechage_enabled = true;
+        this.dash_enabled = true;
+        this.laser_enabled = true;
 
         this.forward = new Vector2(1, 0);
 
@@ -93,9 +110,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         // handle iframes
-        if (this.state.iframes_enabled){
+        if (this.iframes_enabled){
             if (Time.time - this.iframes_starttime > this.iframes_duration){
-                this.state.iframes_enabled = false;
+                this.iframes_enabled = false;
                 
                 ChangeAlphaOfImage(1.0f);
 
@@ -104,7 +121,7 @@ public class Player : MonoBehaviour
         }
 
         // handle turning the player
-        if (this.state.turn_enabled){    
+        if (this.turn_enabled){    
             float x_thumb = Input.GetAxis("axx");
             float y_thumb = Input.GetAxis("axy");
 
@@ -125,7 +142,7 @@ public class Player : MonoBehaviour
         }
 
         // check the thrust_enabled state - act if it is active
-        if (this.state.thrust_enabled){
+        if (this.thrust_enabled){
             float ax3 = Input.GetAxis("ax3");
 
             // set a lower limit for the exhaust to be enabled
@@ -158,9 +175,9 @@ public class Player : MonoBehaviour
         }
 
         // handle firing plasma balls
-        if (this.state.plasmaball_enabled){
+        if (this.plasmaball_enabled){
             if (this.plasmaball_ready){
-                if (Input.GetButtonDown("b1")){
+                if (Input.GetButtonDown("b0")){
                     if (Time.time - this.plasmaball_firetime > this.plasmaball_cooldown){
                         this.plasmaball_firetime = Time.time;
                         this.plasmaball_ready = false;
@@ -169,9 +186,7 @@ public class Player : MonoBehaviour
                         g.transform.parent = this.transform;
                     }
                 }
-            }
-            
-            if (!this.plasmaball_ready){
+            } else {
                 if (Time.time - this.plasmaball_firetime > this.plasmaball_chargetime){
                     Vector3 offset = new Vector3(this.forward.x * this.plasmaball_spawnoffsetfactor, this.forward.y * this.plasmaball_spawnoffsetfactor, 0);
                     GameObject g = Instantiate(plasmaball, this.transform.position + offset, transform.rotation) as GameObject;
@@ -182,7 +197,58 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (this.state.dash_enabled){
+        if (this.laser_enabled){
+            if (Input.GetButtonDown("b1")){
+                if (!this.laser_firing && !this.laser_charging){
+                    this.laser_charging = true;
+                    this.laser_firetime = Time.time;
+                    
+                    GameObject g = Instantiate(laser_charge, this.transform.position + new Vector3(this.forward.x/2, this.forward.y/2, 0), this.transform.rotation) as GameObject;
+                    g.transform.parent = this.transform;
+                    
+                    this.max_velocity = this.laser_maxvelocity;
+                    this.thrust_force = this.laser_maxthrust;
+                    this.rotation_speed = this.laser_maxrotation;
+                }
+            }
+
+            if (Input.GetButtonUp("b1")){
+                if (this.laser_firing){
+                    this.laser_firing = false;
+                    
+                    this.laser_renderer.SetActive(false);
+
+                    this.max_velocity = max_velocity_cap;
+                    this.thrust_force = max_thrust_force;
+                    this.rotation_speed = max_rotation_speed;
+                }
+                if (this.laser_charging){
+                    this.laser_charging = false;
+                    
+                    this.max_velocity = max_velocity_cap;
+                    this.thrust_force = max_thrust_force;
+                    this.rotation_speed = max_rotation_speed;
+                }
+            }
+        }
+
+        if (this.laser_charging){
+            if (Time.time - this.laser_firetime > this.laser_chargetime){
+                    this.laser_renderer.transform.localScale = new Vector3(this.laser_range * this.laser_renderer_increasefactor, 1, 1);
+                    this.laser_renderer.SetActive(true);
+                    this.laser_firing = true;
+            }
+        }
+
+        if (this.laser_firing){
+            RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.laser_range);
+            
+            if (hit){
+                hit.collider.gameObject.SendMessage("ApplyRawDamage", this.laser_damage);
+            }
+        }
+
+        if (this.dash_enabled){
             if (Input.GetButtonDown("b2")){
                 this.transform.position += new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
                 this.rb2d.velocity = this.rb2d.velocity.magnitude * this.forward;
@@ -190,7 +256,7 @@ public class Player : MonoBehaviour
         }
 
         // recharge shield points if possible
-        if (this.state.shield_rechage_enabled){
+        if (this.shield_rechage_enabled){
             if (this.shield_points < this.max_shield_points){
                 if (Time.time - this.latest_damage_time > this.shield_recharge_time){
                     this.latest_damage_time = Time.time;
@@ -205,7 +271,7 @@ public class Player : MonoBehaviour
         // don't do anything if damage is less than 0
         if (damage < 0){ return; }
 
-        if (!this.state.iframes_enabled && this.state.damage_enabled){
+        if (!this.iframes_enabled && this.damage_enabled){
             // create a damage particle system
             GameObject dmg = Instantiate(damage_particle_system, transform.position, Quaternion.identity);
 
@@ -214,7 +280,7 @@ public class Player : MonoBehaviour
                 this.shield_points--;
 
                 this.iframes_starttime = Time.time;
-                this.state.iframes_enabled = true;
+                this.iframes_enabled = true;
 
                 this.coll.enabled = false;
 

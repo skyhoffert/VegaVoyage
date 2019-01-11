@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class MuzzPilot : MonoBehaviour
 {
-    // structure to hold state information about the player
-    struct MuzzState{
-        public bool thrust_enabled;
-    }
+    private bool thrust_enabled;
 
-    private MuzzState state;
+    private bool paused = false;
 
     private GameObject player;
     private Rigidbody2D rb2d;
 
-    private float detect_distance = 10.0f;
+    private float detect_distance = 12.0f;
 
-    private float thrust_force = 2.0f;
+    private float thrust_force = 4.0f;
     
-    private float max_velocity = 2.0f;
+    private float max_velocity = 2.5f;
 
     private float collision_damage = 1.0f;
 
@@ -32,12 +29,14 @@ public class MuzzPilot : MonoBehaviour
 
         this.rb2d = GetComponent<Rigidbody2D>();
 
-        this.state.thrust_enabled = true;
+        this.thrust_enabled = true;
     }
 
     // Update is called once per frame
     void Update(){
-        if (this.state.thrust_enabled){
+        if (this.paused){ return; }
+
+        if (this.thrust_enabled){
             // find distance to player
             float y_dist = player.transform.position.y - this.transform.position.y;
             float x_dist = player.transform.position.x - this.transform.position.x;
@@ -71,5 +70,9 @@ public class MuzzPilot : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         collision.gameObject.SendMessage("ApplyRawDamage", this.collision_damage);
+    }
+
+    void Pause(bool p){
+        this.paused = p;
     }
 }

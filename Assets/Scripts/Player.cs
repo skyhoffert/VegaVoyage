@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private bool shield_rechage_enabled;
     private bool dash_enabled;
     private bool laser_enabled;
+    private bool paused;
 
     public GameObject exhaust;
     public ParticleSystem particle_system;
@@ -21,7 +22,6 @@ public class Player : MonoBehaviour
     public GameObject plasmaball;
     
     public SpriteRenderer sr;
-    public PolygonCollider2D coll;
     public GameObject damage_particle_system;
 
     public GameObject plasmaball_charge;
@@ -94,8 +94,12 @@ public class Player : MonoBehaviour
         this.shield_rechage_enabled = true;
         this.dash_enabled = true;
         this.laser_enabled = true;
+        this.paused = false;
 
-        this.forward = new Vector2(1, 0);
+        // calculate forward direction
+        this.forward.x = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
+        this.forward.y = -Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
+        this.forward.Normalize();
 
         this.exhaust.SetActive(false);
 
@@ -111,14 +115,16 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.paused){
+            return;
+        }
+
         // handle iframes
         if (this.iframes_enabled){
             if (Time.time - this.iframes_starttime > this.iframes_duration){
                 this.iframes_enabled = false;
                 
                 ChangeAlphaOfImage(1.0f);
-
-                this.coll.enabled = true;
             }
         }
 
@@ -129,9 +135,9 @@ public class Player : MonoBehaviour
 
             if (Mathf.Abs(x_thumb) > 0.1 || Mathf.Abs(y_thumb) > 0.1){
                 // calculate forward direction
-                forward.x = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
-                forward.y = -Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
-                forward.Normalize();
+                this.forward.x = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
+                this.forward.y = -Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
+                this.forward.Normalize();
                 
                 // calculate how much to turn
                 float rotation_amount = -Mathf.Atan2(y_thumb, x_thumb) * Mathf.Rad2Deg;
@@ -266,13 +272,18 @@ public class Player : MonoBehaviour
 
         if (this.dash_enabled){
             if (Input.GetButtonDown("b2")){
-                this.transform.position += new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
-                this.rb2d.velocity = this.rb2d.velocity.magnitude * this.forward;
+                RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.dash_magnitude);
+
+                // TODO - needs to be fixed, can't dash through objects to other side
+                if (hit.collider == null){
+                    this.transform.position += new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
+                    this.rb2d.velocity = this.rb2d.velocity.magnitude * this.forward;
+                }
             }
         }
 
-        // recharge shield points if possible
         if (this.shield_rechage_enabled){
+            // must prevent adding too many shield points
             if (this.shield_points < this.max_shield_points){
                 if (Time.time - this.latest_damage_time > this.shield_recharge_time){
                     this.latest_damage_time = Time.time;
@@ -298,8 +309,6 @@ public class Player : MonoBehaviour
                 this.iframes_starttime = Time.time;
                 this.iframes_enabled = true;
 
-                this.coll.enabled = false;
-
                 this.sp1.SetActive(false);
 
                 this.latest_damage_time = Time.time;
@@ -323,6 +332,10 @@ public class Player : MonoBehaviour
 
             // TODO - more stuff
         }
+    }
+
+    public void Pause(bool p){
+        this.paused = p;
     }
 
     // modify the alpha value of the player's ship image

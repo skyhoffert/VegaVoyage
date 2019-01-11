@@ -3,10 +3,12 @@ using System.Collections;
 
 public class Entity : MonoBehaviour {
     
-    public float health;
-    public float maxhp;
     public bool can_damage = true;
     public bool can_heal = true;
+    private bool paused = false;
+
+    public float health;
+    public float maxhp;
     private bool iframes_enabled = false;
 
     private float iframes_starttime = 0.0f;
@@ -17,7 +19,6 @@ public class Entity : MonoBehaviour {
 
     private SpriteRenderer sr;
 
-    public PolygonCollider2D coll;
     public GameObject damage_particle_system;
 
     void Start(){
@@ -25,6 +26,8 @@ public class Entity : MonoBehaviour {
     }
 
     void Update(){
+        if (this.paused){ return; }
+
         if (iframes_enabled){
             if (Time.time - this.iframes_starttime > this.iframes_duration){
                 this.iframes_enabled = false;
@@ -73,5 +76,9 @@ public class Entity : MonoBehaviour {
             
             if (this.health > maxhp){ this.health = maxhp; }
         }
+    }
+
+    public void Pause(bool p){
+        this.paused = p;
     }
 }

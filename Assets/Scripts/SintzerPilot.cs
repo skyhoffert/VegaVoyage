@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class SintzerPilot : MonoBehaviour
 {
-    // structure to hold state information about the player
-    struct SintzerState{
-        public bool lunge_enabled;
-        public bool thrust_enabled;
-        public bool turn_enabled;
-        public bool lunging;
-        public bool lunge_ready;
-    }
+    private bool lunge_enabled;
+    private bool thrust_enabled;
+    private bool turn_enabled;
+    private bool lunging;
+    private bool lunge_ready;
 
-    private SintzerState state;
+    private bool paused = false;
 
     private Vector2 forward;
     private float rotation_speed = 10.0f;
@@ -42,11 +39,11 @@ public class SintzerPilot : MonoBehaviour
     {
         this.player = GameObject.FindWithTag("Player");
 
-        this.state.lunge_enabled = true;
-        this.state.thrust_enabled = true;
-        this.state.turn_enabled = true;
-        this.state.lunging = false;
-        this.state.lunge_ready = false;
+        this.lunge_enabled = true;
+        this.thrust_enabled = true;
+        this.turn_enabled = true;
+        this.lunging = false;
+        this.lunge_ready = false;
 
         this.rb2d = GetComponent<Rigidbody2D>();
 
@@ -56,11 +53,13 @@ public class SintzerPilot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.state.lunging){
+        if (this.paused){ return; }
+
+        if (this.lunging){
             if (Time.time > this.lunge_time + this.lunge_duration){
-                this.state.lunging = false;
-                this.state.turn_enabled = true;
-                this.state.lunge_enabled = true;
+                this.lunging = false;
+                this.turn_enabled = true;
+                this.lunge_enabled = true;
             }
         }
 
@@ -71,7 +70,7 @@ public class SintzerPilot : MonoBehaviour
         // angle between forward and player
         float angle_to = 0;
 
-        if (this.state.turn_enabled){
+        if (this.turn_enabled){
             // calculate forward direction
             this.forward.x = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
             this.forward.y = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
@@ -86,11 +85,11 @@ public class SintzerPilot : MonoBehaviour
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, target, Time.deltaTime * this.rotation_speed);
 
             angle_to = Vector2.Angle(forward, new Vector2(x_dist, y_dist));
-            this.state.lunge_ready = Mathf.Abs(angle_to) < this.lunge_maxangle;
+            this.lunge_ready = Mathf.Abs(angle_to) < this.lunge_maxangle;
         }
 
-        if (this.state.lunge_enabled){
-            if (this.state.lunge_ready && !this.lunge_charging){
+        if (this.lunge_enabled){
+            if (this.lunge_ready && !this.lunge_charging){
                 float dist = (new Vector2(x_dist, y_dist)).magnitude;
                 if (dist <= lunge_range){
                     this.rb2d.velocity = Vector2.zero;
@@ -104,9 +103,9 @@ public class SintzerPilot : MonoBehaviour
             if (Time.time - this.lunge_chargetime > this.lunge_chargeduration){
                     this.lunge_charging = false;
                     
-                    this.state.lunging = true;
-                    this.state.turn_enabled = false;
-                    this.state.lunge_enabled = false;
+                    this.lunging = true;
+                    this.turn_enabled = false;
+                    this.lunge_enabled = false;
                     this.lunge_time = Time.time;
 
                     this.rb2d.AddForce(this.forward * this.lunge_force);
@@ -114,7 +113,7 @@ public class SintzerPilot : MonoBehaviour
         }
 
         // check the thrust_enabled state - act if it is active
-        if (this.state.thrust_enabled && !this.state.lunging && angle_to < this.thrust_maxangle){
+        if (this.thrust_enabled && !this.lunging && angle_to < this.thrust_maxangle){
                 Vector2 toplayer = new Vector2(x_dist, y_dist);
                 Vector2 intercept = toplayer - rb2d.velocity;
                 intercept.Normalize();
@@ -130,6 +129,10 @@ public class SintzerPilot : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         collision.gameObject.SendMessage("ApplyRawDamage", this.collision_damage);
+    }
+
+    void Pause(bool p){
+        this.paused = p;
     }
 
 }

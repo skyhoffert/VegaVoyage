@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Sintzer
+  - Muzz
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -19,8 +22,8 @@ TagManager:
   - GameSpace
   - EnemySpace
   - FarFG
+  - MidFG
   - NearFG
-  - 
   - 
   - 
   - 

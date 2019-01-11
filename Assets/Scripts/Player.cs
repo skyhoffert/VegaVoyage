@@ -275,7 +275,7 @@ public class Player : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.dash_magnitude);
 
                 // TODO - needs to be fixed, can't dash through objects to other side
-                if (hit.collider == null){
+                if (hit.collider == null || hit.collider.isTrigger){
                     this.transform.position += new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
                     this.rb2d.velocity = this.rb2d.velocity.magnitude * this.forward;
                 }

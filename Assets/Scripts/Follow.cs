@@ -5,7 +5,7 @@ public class Follow : MonoBehaviour {
 
     public GameObject objectToFollow;
 
-    private float speed = 0.06f;
+    private float speed = 0.08f;
 	
 	// Update is called once per frame
 	void FixedUpdate () {

@@ -65,6 +65,8 @@ public class Player : MonoBehaviour
     private float laser_maxrotation = 0.25f * max_rotation_speed;
 
     private float dash_magnitude = 2.0f;
+
+    private float thrust_emitrate = 20.0f;
     
     private Vector2 forward;
     
@@ -102,9 +104,8 @@ public class Player : MonoBehaviour
         this.max_shield_points = 1;
         this.shield_points = this.max_shield_points;
         
-        // TODO - broken
-        //this.particle_system.Stop(false, ParticleSystemStopBehavior.StopEmitting);
-        this.particle_system.gameObject.SetActive(false);
+        var emission = this.particle_system.emission;
+        emission.rateOverTime = 0;
     }
 
     // Update is called once per frame
@@ -152,21 +153,22 @@ public class Player : MonoBehaviour
 
                 this.rb2d.AddForce(this.forward * this.thrust_force);
 
-                // TODO - broken
-                //this.particle_system.Play(true);
-                this.particle_system.gameObject.SetActive(true);
+                var emission = this.particle_system.emission;
+                emission.rateOverTime = this.thrust_emitrate;
             } else if (ax3 < -0.1){
                 // if left trigger is being pressed
                 // TODO - this probably won't be in the game
                 this.rb2d.AddForce(-this.forward * this.thrust_force / 2);
+                
+                var emission = this.particle_system.emission;
+                emission.rateOverTime = 0;
             } else {
                 if (this.exhaust.activeSelf){
                     this.exhaust.SetActive(false);
-
-                    // TODO - broken
-                    //this.particle_system.Stop(false, ParticleSystemStopBehavior.StopEmitting);
-                    this.particle_system.gameObject.SetActive(false);
                 }
+
+                var emission = this.particle_system.emission;
+                emission.rateOverTime = 0;
             }
         }
         

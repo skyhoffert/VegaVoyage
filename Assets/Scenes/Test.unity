@@ -2004,6 +2004,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DestroyedShip
       objectReference: {fileID: 0}
+    - target: {fileID: 855113792970929302, guid: c108a35bf47308c4ba23bef211c9c6c3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 855113792970929305, guid: c108a35bf47308c4ba23bef211c9c6c3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2058,11 +2063,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 855113792970929305, guid: c108a35bf47308c4ba23bef211c9c6c3,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c108a35bf47308c4ba23bef211c9c6c3, type: 3}
@@ -2143,5 +2143,13 @@ PrefabInstance:
       propertyPath: sp1_missing
       value: 
       objectReference: {fileID: 161060585}
+    - target: {fileID: 1878985480, guid: e9bd272247004694fa3e3a6ce560017f, type: 3}
+      propertyPath: stopAction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878985480, guid: e9bd272247004694fa3e3a6ce560017f, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9bd272247004694fa3e3a6ce560017f, type: 3}

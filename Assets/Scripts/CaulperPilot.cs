@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SintzerPilot : MonoBehaviour
+public class CaulperPilot : MonoBehaviour
 {
     private bool lunge_enabled;
     private bool thrust_enabled;
@@ -150,5 +150,4 @@ public class SintzerPilot : MonoBehaviour
     void Pause(bool p){
         this.paused = p;
     }
-
 }

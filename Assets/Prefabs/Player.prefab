@@ -744,7 +744,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 100
+    maxNumParticles: 20
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -2213,8 +2213,8 @@ ParticleSystem:
         m_RotationOrder: 4
     inWorldSpace: 0
   InheritVelocityModule:
-    enabled: 0
-    m_Mode: 0
+    enabled: 1
+    m_Mode: 1
     m_Curve:
       serializedVersion: 2
       minMaxState: 0
@@ -5272,7 +5272,6 @@ MonoBehaviour:
   plasmaball: {fileID: 6617625111980632841, guid: 7326950eb4aaf304da42e26d3b213bff,
     type: 3}
   sr: {fileID: 8353142031099102275}
-  coll: {fileID: 8353142032339104346}
   damage_particle_system: {fileID: 4000441247035079257, guid: 65c6f7c49bc74724eb671b7e947573a8,
     type: 3}
   plasmaball_charge: {fileID: 3564597071673130698, guid: 2360d42b26642ef48bf2742c51eb7f8b,

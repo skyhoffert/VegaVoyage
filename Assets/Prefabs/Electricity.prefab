@@ -168,7 +168,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1027,7 +1027,7 @@ ParticleSystem:
           m_RotationOrder: 4
       cycleCount: 1
       repeatInterval: 1
-      probability: 0.6
+      probability: 0.9
   SizeModule:
     enabled: 1
     curve:
@@ -4786,7 +4786,7 @@ Transform:
   m_GameObject: {fileID: 5780855204921140623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.55, y: 1.66, z: 0}
-  m_LocalScale: {x: 60, y: 60, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 5780855204662850041}
   m_Father: {fileID: 0}
@@ -4807,7 +4807,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.014
+  m_Radius: 3
 --- !u!212 &5780855204921140625
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -55,6 +55,11 @@ public class LevelManager : MonoBehaviour
                 for (int i = 0; i < muzz.Length; i++){
                     muzz[i].SendMessage("Pause", this.paused);
                 }
+                
+                GameObject[] caulpers = GameObject.FindGameObjectsWithTag("Caulper");
+                for (int i = 0; i < caulpers.Length; i++){
+                    caulpers[i].SendMessage("Pause", this.paused);
+                }
             }
         }
 

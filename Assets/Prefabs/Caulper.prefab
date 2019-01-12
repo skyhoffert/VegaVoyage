@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 4941072723249366427}
   - component: {fileID: 4941072723249366406}
   - component: {fileID: 4941072723249366425}
-  m_Layer: 0
+  - component: {fileID: 1337325709}
+  - component: {fileID: 1337325711}
+  m_Layer: 12
   m_Name: Caulper
-  m_TagString: Untagged
+  m_TagString: Caulper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,3 +138,40 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &1337325709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4941072723249366426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6c9d3d11765b147be02dd5f8b13a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  can_damage: 1
+  can_heal: 1
+  health: 50
+  maxhp: 50
+  iframes_duration_perdamagepoint: 0.05
+  iframes_duration_max: 0.3
+  iframes_minalpha: 0.5
+  damage_particle_system: {fileID: 3231635402755197026, guid: d88e0ea12476df8448a2a425b907185d,
+    type: 3}
+--- !u!114 &1337325711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4941072723249366426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670e694d743071b43a29f843f1431938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 2092094524661785950, guid: f13228c731d34e34e99803554620092b,
+    type: 3}
+  projectile_charge: {fileID: 5765308003269390987, guid: f31e878c38249cc4abfb78b7432c2d7f,
+    type: 3}

@@ -1143,51 +1143,12 @@ Transform:
   m_Father: {fileID: 715005663}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1337325708 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4941072723249366426, guid: 3556c51440bbc4346b135bb7cc6ee62e,
-    type: 3}
-  m_PrefabInstance: {fileID: 4941072721947884822}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1337325709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337325708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b6c9d3d11765b147be02dd5f8b13a43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  can_damage: 1
-  can_heal: 1
-  health: 50
-  maxhp: 50
-  iframes_duration_perdamagepoint: 0.05
-  iframes_duration_max: 0.3
-  iframes_minalpha: 0.5
-  damage_particle_system: {fileID: 3231635402755197026, guid: d88e0ea12476df8448a2a425b907185d,
-    type: 3}
 --- !u!4 &1337325710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4941072723249366424, guid: 3556c51440bbc4346b135bb7cc6ee62e,
     type: 3}
   m_PrefabInstance: {fileID: 4941072721947884822}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1337325711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1337325708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 670e694d743071b43a29f843f1431938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1408484215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 203076255952185017, guid: fc22b058c3e58fe4bb2c0876fa106372,
@@ -1468,16 +1429,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DestroyedShip
       objectReference: {fileID: 0}
-    - target: {fileID: 855113792970929302, guid: c108a35bf47308c4ba23bef211c9c6c3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 855113792970929302, guid: c108a35bf47308c4ba23bef211c9c6c3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wall
-      objectReference: {fileID: 0}
     - target: {fileID: 855113792970929305, guid: c108a35bf47308c4ba23bef211c9c6c3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1607,11 +1558,6 @@ PrefabInstance:
       propertyPath: objectToFollow
       value: 
       objectReference: {fileID: 719427234}
-    - target: {fileID: 3785926412331687446, guid: ec88ad826c0f2054cb35f1cb7061c791,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec88ad826c0f2054cb35f1cb7061c791, type: 3}
 --- !u!1001 &3910514173187485429
@@ -1695,25 +1641,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Caulper
       objectReference: {fileID: 0}
-    - target: {fileID: 4941072723249366426, guid: 3556c51440bbc4346b135bb7cc6ee62e,
-        type: 3}
-      propertyPath: m_TagString
-      value: Caulper
-      objectReference: {fileID: 0}
-    - target: {fileID: 4941072723249366426, guid: 3556c51440bbc4346b135bb7cc6ee62e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 4941072723249366424, guid: 3556c51440bbc4346b135bb7cc6ee62e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.40707815
+      value: 2.73
       objectReference: {fileID: 0}
     - target: {fileID: 4941072723249366424, guid: 3556c51440bbc4346b135bb7cc6ee62e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3857187
+      value: 2.9
       objectReference: {fileID: 0}
     - target: {fileID: 4941072723249366424, guid: 3556c51440bbc4346b135bb7cc6ee62e,
         type: 3}

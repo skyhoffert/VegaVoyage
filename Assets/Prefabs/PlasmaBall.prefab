@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8460563270352010564}
   - component: {fileID: 6555538395454887076}
   - component: {fileID: 6736253638675346682}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlasmaBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6617625112568778999}
   - component: {fileID: 6617625112568778998}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 776969555802172261}
   - component: {fileID: 8920525781472778344}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

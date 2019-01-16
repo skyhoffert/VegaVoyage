@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 148720912}
   - component: {fileID: 148720911}
   - component: {fileID: 148720910}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wall (7)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   - component: {fileID: 517615927}
   - component: {fileID: 517615926}
   - component: {fileID: 517615925}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wall (6)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 521767012}
   - component: {fileID: 521767011}
   - component: {fileID: 521767010}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wall (5)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1542,6 +1542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DestroyedShip
+      objectReference: {fileID: 0}
+    - target: {fileID: 855113792970929302, guid: c108a35bf47308c4ba23bef211c9c6c3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 855113792970929305, guid: c108a35bf47308c4ba23bef211c9c6c3,
         type: 3}

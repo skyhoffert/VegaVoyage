@@ -251,7 +251,8 @@ public class Player : MonoBehaviour
         }
 
         if (this.laser_firing){
-            RaycastHit2D[] hits = Physics2D.RaycastAll(this.laser_renderer.transform.position, this.forward, this.laser_range);
+            LayerMask mask = LayerMask.GetMask("EnemySpace");
+            RaycastHit2D[] hits = Physics2D.RaycastAll(this.laser_renderer.transform.position, this.forward, this.laser_range, mask);
             
             for (int i = 0; i < hits.Length; i++){
                 if (hits[i]){
@@ -272,7 +273,8 @@ public class Player : MonoBehaviour
 
         if (this.dash_enabled){
             if (Input.GetButtonDown("b2")){
-                RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.dash_magnitude);
+                LayerMask mask = LayerMask.GetMask("FarFG");
+                RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.dash_magnitude, mask);
 
                 // TODO - needs to be fixed, can't dash through objects to other side
                 if (hit.collider == null || hit.collider.isTrigger){

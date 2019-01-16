@@ -19,8 +19,13 @@ public class LevelManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start(){
-        int layer = LayerMask.NameToLayer("EnemySpace");
-        Physics2D.IgnoreLayerCollision(layer, layer, true);
+        int player = LayerMask.NameToLayer("GameSpace");
+        int enemies = LayerMask.NameToLayer("EnemySpace");
+        int walls = LayerMask.NameToLayer("FarFG");
+        int pieces = LayerMask.NameToLayer("NearBG");
+        Physics2D.IgnoreLayerCollision(enemies, enemies, true);
+        Physics2D.IgnoreLayerCollision(pieces, player, true);
+        Physics2D.IgnoreLayerCollision(pieces, enemies, true);
 
         this.prev_tm = Time.time;
     }

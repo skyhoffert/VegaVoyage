@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(enemies, enemies, true);
         Physics2D.IgnoreLayerCollision(pieces, player, true);
         Physics2D.IgnoreLayerCollision(pieces, enemies, true);
+        Physics2D.IgnoreLayerCollision(pieces, pieces, true);
 
         this.prev_tm = Time.time;
     }

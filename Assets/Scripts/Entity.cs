@@ -50,6 +50,8 @@ public class Entity : MonoBehaviour {
             if (this.health < 0){ this.health = 0; }
 
             if (this.health <= 0){
+                this.gameObject.SendMessage("Die");
+
                 Destroy(this.gameObject);
                 
                 Debug.Log(this.gameObject + " has been destroyed");

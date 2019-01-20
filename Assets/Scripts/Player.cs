@@ -251,7 +251,7 @@ public class Player : MonoBehaviour
         }
 
         if (this.laser_firing){
-            LayerMask mask = LayerMask.GetMask("EnemySpace");
+            LayerMask mask = LayerMask.GetMask("EnemySpace", "FarFG");
             RaycastHit2D[] hits = Physics2D.RaycastAll(this.laser_renderer.transform.position, this.forward, this.laser_range, mask);
             
             for (int i = 0; i < hits.Length; i++){

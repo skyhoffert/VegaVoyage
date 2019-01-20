@@ -19,6 +19,13 @@ public class SintzerPilot : MonoBehaviour
     private GameObject player;
 
     private Rigidbody2D rb2d;
+    
+    public GameObject limb1_prefab;
+
+    private int dead_limbs = 5;
+    private float dead_limb_velocity = 0.8f;
+    private float dead_limb_angularvelmult = 80.0f;
+    private float dead_limb_angularvelmin = 10.0f;
 
     private float lunge_range = 6.0f;
     private float lunge_time = 0.0f;
@@ -149,6 +156,19 @@ public class SintzerPilot : MonoBehaviour
 
     void Pause(bool p){
         this.paused = p;
+    }
+
+    void Die(){
+        for (int i = 0; i < this.dead_limbs; i++){
+            Vector2 variation = new Vector2(Random.value - 0.5f, Random.value - 0.5f);
+            variation.Normalize();
+
+            float rot_speed = Random.value * this.dead_limb_angularvelmult + this.dead_limb_angularvelmin;
+
+            GameObject g = Instantiate(limb1_prefab, this.transform.position, transform.rotation) as GameObject;
+            g.SendMessage("SetVelocity", (this.rb2d.velocity + variation) * this.dead_limb_velocity);
+            g.SendMessage("SetRotationSpeed", rot_speed);
+        }
     }
 
 }

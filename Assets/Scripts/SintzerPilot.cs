@@ -43,6 +43,10 @@ public class SintzerPilot : MonoBehaviour
     private float collision_damage = 10.0f;
 
     private float trigger_distance = 10.0f;
+    
+    // 0 is upgrade, TODO
+    public int currency_type = 0;
+    public int currency_amount = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -168,6 +172,10 @@ public class SintzerPilot : MonoBehaviour
             GameObject g = Instantiate(limb1_prefab, this.transform.position, transform.rotation) as GameObject;
             g.SendMessage("SetVelocity", (this.rb2d.velocity + variation) * this.dead_limb_velocity);
             g.SendMessage("SetRotationSpeed", rot_speed);
+        }
+        
+        if (this.currency_type == 0){
+            this.player.SendMessage("AddUpgradeCurrency", this.currency_amount);
         }
     }
 

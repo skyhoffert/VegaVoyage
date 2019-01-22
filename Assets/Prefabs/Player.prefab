@@ -5281,3 +5281,4 @@ MonoBehaviour:
   laser_renderer: {fileID: 3604249636196688859}
   sp1: {fileID: 0}
   sp1_missing: {fileID: 0}
+  upgrade_text: {fileID: 0}

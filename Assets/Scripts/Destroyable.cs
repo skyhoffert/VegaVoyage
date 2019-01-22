@@ -9,9 +9,15 @@ public class Destroyable : MonoBehaviour
 
     public GameObject destroy_particles;
 
+    // 0 is upgrade, TODO
+    public int currency_type = 0;
+    public int currency_amount = 1;
+
+    private GameObject player;
+
     // Start is called before the first frame update
     void Start(){
-        
+        this.player = GameObject.FindWithTag("Player");
     }
 
     void ApplyRawDamage(float dmg){
@@ -21,6 +27,10 @@ public class Destroyable : MonoBehaviour
             GameObject g = Instantiate(this.destroy_particles, this.transform.position, this.transform.rotation);
 
             Destroy(this.gameObject);
+
+            if (this.currency_type == 0){
+                this.player.SendMessage("AddUpgradeCurrency", this.currency_amount);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class Player : MonoBehaviour
 
     public GameObject sp1;
     public GameObject sp1_missing;
+
+    public Text upgrade_text;
 
     private Rigidbody2D rb2d;
 
@@ -73,6 +76,8 @@ public class Player : MonoBehaviour
     private float shield_points;
     private float max_shield_points;
 
+    private int currency_upgrade_amt = 0;
+
     // variables handling invulnerability frames
     private float iframes_starttime = 0.0f;
     private float iframes_duration = 1.0f;
@@ -110,6 +115,8 @@ public class Player : MonoBehaviour
         
         var emission = this.particle_system.emission;
         emission.rateOverTime = 0;
+
+        this.upgrade_text.text = "" + this.currency_upgrade_amt;
     }
 
     // Update is called once per frame
@@ -338,6 +345,12 @@ public class Player : MonoBehaviour
 
     public void Pause(bool p){
         this.paused = p;
+    }
+
+    public void AddUpgradeCurrency(int num){
+        this.currency_upgrade_amt += num;
+        
+        this.upgrade_text.text = "" + this.currency_upgrade_amt;
     }
 
     // modify the alpha value of the player's ship image

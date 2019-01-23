@@ -72,6 +72,10 @@ public class MuzzPilot : MonoBehaviour
         collision.gameObject.SendMessage("ApplyRawDamage", this.collision_damage);
     }
 
+    void Die(){
+        
+    }
+
     void Pause(bool p){
         this.paused = p;
     }

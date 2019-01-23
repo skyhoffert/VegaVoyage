@@ -9,6 +9,10 @@ TagManager:
   - Wall
   - Caulper
   - MuzzMother
+  - int_1
+  - int_2
+  - int_3
+  - int_4
   layers:
   - Default
   - TransparentFX

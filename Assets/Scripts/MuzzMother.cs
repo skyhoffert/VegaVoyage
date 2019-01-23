@@ -36,4 +36,8 @@ public class MuzzMother : MonoBehaviour
             }
         }
     }
+
+    void Die(){
+        
+    }
 }

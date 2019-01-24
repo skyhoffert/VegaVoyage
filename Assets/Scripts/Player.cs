@@ -117,6 +117,10 @@ public class Player : MonoBehaviour
         emission.rateOverTime = 0;
 
         this.upgrade_text.text = "" + this.currency_upgrade_amt;
+
+        this.currency_upgrade_amt = PlayerPrefs.GetInt("upgrade_currency_amt");
+        
+        this.upgrade_text.text = "" + this.currency_upgrade_amt;
     }
 
     // Update is called once per frame
@@ -351,6 +355,8 @@ public class Player : MonoBehaviour
         this.currency_upgrade_amt += num;
         
         this.upgrade_text.text = "" + this.currency_upgrade_amt;
+
+        PlayerPrefs.SetInt("upgrade_currency_amt", this.currency_upgrade_amt);
     }
 
     // modify the alpha value of the player's ship image

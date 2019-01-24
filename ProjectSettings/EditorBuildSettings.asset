@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
+    path: Assets/Scenes/Splash.unity
+    guid: 4bc5e4089adcff64cb8fd2dbcf8a8dc7
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 3e838783307d40142a0038c6a034a8d2
+  - enabled: 1
     path: Assets/Scenes/GameStartArea.unity
     guid: c87dda40e9d70de44994120c7c29957d
   - enabled: 1

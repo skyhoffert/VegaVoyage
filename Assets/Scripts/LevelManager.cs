@@ -8,7 +8,13 @@ public class LevelManager : MonoBehaviour
 
     private bool pause_enabled = true;
 
+    private GameObject player;
+    private GameObject cam;
+
     public GameObject blackout_sr;
+
+    public GameObject spawn_0;
+    public GameObject spawn_1;
 
     private bool paused = false;
 
@@ -19,16 +25,34 @@ public class LevelManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start(){
-        int player = LayerMask.NameToLayer("GameSpace");
+        int playerid = LayerMask.NameToLayer("GameSpace");
         int enemies = LayerMask.NameToLayer("EnemySpace");
         int walls = LayerMask.NameToLayer("FarFG");
         int pieces = LayerMask.NameToLayer("NearBG");
         Physics2D.IgnoreLayerCollision(enemies, enemies, true);
-        Physics2D.IgnoreLayerCollision(pieces, player, true);
+        Physics2D.IgnoreLayerCollision(pieces, playerid, true);
         Physics2D.IgnoreLayerCollision(pieces, enemies, true);
         Physics2D.IgnoreLayerCollision(pieces, pieces, true);
 
         this.prev_tm = Time.time;
+
+        this.player = GameObject.FindWithTag("Player");
+        this.cam = GameObject.FindWithTag("MainCamera");
+
+        // move the player to the spawn position
+        if (PlayerPrefs.GetInt("spawn_area") == 0){
+            this.player.transform.position = this.spawn_0.transform.position;
+            this.player.transform.rotation = this.spawn_0.transform.rotation;
+        } else if (PlayerPrefs.GetInt("spawn_area") == 1){
+            this.player.transform.position = this.spawn_1.transform.position;
+            this.player.transform.rotation = this.spawn_1.transform.rotation;
+        }
+
+        // tell player to clear trail
+        this.player.SendMessage("ClearTrail");
+
+        // move the camera over the player so it doesn't have to lerp there
+        this.cam.transform.position = new Vector3(this.player.transform.position.x, this.player.transform.position.y, this.cam.transform.position.z);
     }
 
     // Update is called once per frame
@@ -37,7 +61,9 @@ public class LevelManager : MonoBehaviour
         if (QuitKeyPressed()){
             Application.Quit();
         } else if (ResetKeyPressed()){
-            SceneManager.LoadScene("Test");
+            // load current scene name that has been saved
+            string scene_name = PlayerPrefs.GetString("current_scene", "");
+            SceneManager.LoadScene(scene_name);
         } else if (PauseKeyPressed()){
             if (this.pause_enabled){
                 if (Time.timeScale < 0.1){

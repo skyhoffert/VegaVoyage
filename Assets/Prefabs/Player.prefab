@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58713929}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 0, z: 0}
+  m_LocalPosition: {x: -0.2, y: 0, z: 0.1}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 8353142032339104349}
@@ -4818,7 +4818,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -4909,7 +4909,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: -1}
   - {x: 0.02, y: 0, z: -1}
@@ -5111,7 +5111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8353142031541009260}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.5, y: 0, z: 1}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0.1}
   m_LocalScale: {x: 0.06, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 8353142032339104349}
@@ -5153,7 +5153,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: ae806f5fd0ee3ff4ea103868b58095ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5267,6 +5267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1abdd06da7b723a4fa656e76dacbd728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trail: {fileID: 58713930}
   exhaust: {fileID: 8353142031541009260}
   particle_system: {fileID: 1878985480}
   plasmaball: {fileID: 6617625111980632841, guid: 7326950eb4aaf304da42e26d3b213bff,

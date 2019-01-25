@@ -6,7 +6,8 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     void Start(){
-        
+        PlayerPrefs.SetString("current_scene", "GameStartArea");
+        PlayerPrefs.SetInt("spawn_area", 0);
     }
 
     void Update(){

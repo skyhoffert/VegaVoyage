@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private bool laser_enabled;
     private bool paused;
 
+    public TrailRenderer trail;
+
     public GameObject exhaust;
     public ParticleSystem particle_system;
 
@@ -44,7 +46,7 @@ public class Player : MonoBehaviour
     private static float max_rotation_speed = 4.0f;
     private float rotation_speed = max_rotation_speed;
 
-    private static float max_velocity_cap = 8.0f;
+    private static float max_velocity_cap = 10.0f;
     private float max_velocity = max_velocity_cap;
 
     private float plasmaball_velocity_magnitude = 20.0f;
@@ -145,10 +147,7 @@ public class Player : MonoBehaviour
             float y_thumb = Input.GetAxis("axy");
 
             if (Mathf.Abs(x_thumb) > 0.1 || Mathf.Abs(y_thumb) > 0.1){
-                // calculate forward direction
-                this.forward.x = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
-                this.forward.y = -Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
-                this.forward.Normalize();
+                this.forward = this.transform.right;
                 
                 // calculate how much to turn
                 float rotation_amount = -Mathf.Atan2(y_thumb, x_thumb) * Mathf.Rad2Deg;
@@ -157,6 +156,8 @@ public class Player : MonoBehaviour
                 Vector3 dir = new Vector3(0.0f, 0.0f, rotation_amount);
                 Quaternion target = Quaternion.Euler(dir);
                 this.transform.rotation = Quaternion.Lerp(this.transform.rotation, target, Time.deltaTime * this.rotation_speed);
+            } else {
+                this.forward = this.transform.right;
             }
         }
 
@@ -357,6 +358,11 @@ public class Player : MonoBehaviour
         this.upgrade_text.text = "" + this.currency_upgrade_amt;
 
         PlayerPrefs.SetInt("upgrade_currency_amt", this.currency_upgrade_amt);
+        PlayerPrefs.Save();
+    }
+
+    public void ClearTrail(){
+        this.trail.Clear();
     }
 
     // modify the alpha value of the player's ship image

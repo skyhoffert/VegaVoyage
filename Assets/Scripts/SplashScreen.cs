@@ -17,6 +17,8 @@ public class SplashScreen : MonoBehaviour
 
     private SpriteRenderer sr;
 
+    private bool allow_skipping = true;
+
     void Start(){
         this.start_time = Time.time;
         this.sr = GetComponent<SpriteRenderer>();
@@ -56,6 +58,12 @@ public class SplashScreen : MonoBehaviour
             } else {
                 this.state = 3;
                 SceneManager.LoadScene("MainMenu");
+            }
+        }
+
+        if (this.allow_skipping){
+            if (Input.anyKeyDown){
+                this.increase_duration = 0.0f;
             }
         }
     }

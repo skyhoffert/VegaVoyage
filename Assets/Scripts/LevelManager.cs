@@ -59,7 +59,11 @@ public class LevelManager : MonoBehaviour
     void Update(){
         // input handling
         if (QuitKeyPressed()){
-            Application.Quit();
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         } else if (ResetKeyPressed()){
             // load current scene name that has been saved
             string scene_name = PlayerPrefs.GetString("current_scene", "");

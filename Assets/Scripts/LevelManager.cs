@@ -59,44 +59,18 @@ public class LevelManager : MonoBehaviour
     void Update(){
         // input handling
         if (QuitKeyPressed()){
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                Application.Quit();
-            #endif
+            SceneManager.LoadScene("MainMenu");
         } else if (ResetKeyPressed()){
             // load current scene name that has been saved
             string scene_name = PlayerPrefs.GetString("current_scene", "");
             SceneManager.LoadScene(scene_name);
-        } else if (PauseKeyPressed()){
-            if (this.pause_enabled){
-                if (Time.timeScale < 0.1){
-                    Time.timeScale = 1.0f;
-                    this.paused = false;
-                    blackout_sr.SetActive(false);
-                } else {
-                    Time.timeScale = 0.0f;
-                    this.paused = true;
-                    blackout_sr.SetActive(true);
-                }
 
-                GameObject.FindWithTag("Player").SendMessage("Pause", this.paused);
-
-                GameObject[] sintzers = GameObject.FindGameObjectsWithTag("Sintzer");
-                for (int i = 0; i < sintzers.Length; i++){
-                    sintzers[i].SendMessage("Pause", this.paused);
-                }
-                
-                GameObject[] muzz = GameObject.FindGameObjectsWithTag("Muzz");
-                for (int i = 0; i < muzz.Length; i++){
-                    muzz[i].SendMessage("Pause", this.paused);
-                }
-                
-                GameObject[] caulpers = GameObject.FindGameObjectsWithTag("Caulper");
-                for (int i = 0; i < caulpers.Length; i++){
-                    caulpers[i].SendMessage("Pause", this.paused);
-                }
+            // unpause if paused
+            if (this.paused){
+                TogglePause();
             }
+        } else if (PauseKeyPressed()){
+            TogglePause();
         }
 
         // frame rate handling
@@ -108,6 +82,37 @@ public class LevelManager : MonoBehaviour
             this.num_updates = 0;
         } else {
             this.num_updates++;
+        }
+    }
+
+    private void TogglePause(){
+        if (this.pause_enabled){
+            if (Time.timeScale < 0.1){
+                Time.timeScale = 1.0f;
+                this.paused = false;
+                blackout_sr.SetActive(false);
+            } else {
+                Time.timeScale = 0.0f;
+                this.paused = true;
+                blackout_sr.SetActive(true);
+            }
+
+            GameObject.FindWithTag("Player").SendMessage("Pause", this.paused);
+
+            GameObject[] sintzers = GameObject.FindGameObjectsWithTag("Sintzer");
+            for (int i = 0; i < sintzers.Length; i++){
+                sintzers[i].SendMessage("Pause", this.paused);
+            }
+            
+            GameObject[] muzz = GameObject.FindGameObjectsWithTag("Muzz");
+            for (int i = 0; i < muzz.Length; i++){
+                muzz[i].SendMessage("Pause", this.paused);
+            }
+            
+            GameObject[] caulpers = GameObject.FindGameObjectsWithTag("Caulper");
+            for (int i = 0; i < caulpers.Length; i++){
+                caulpers[i].SendMessage("Pause", this.paused);
+            }
         }
     }
 

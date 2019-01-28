@@ -26,12 +26,18 @@ public class MainMenu : MonoBehaviour
     private float max_rgb = 0.6f;
     private float min_rgb = 0.0f;
 
+    private float down_thresh = -0.8f;
+    private float up_thresh = 0.8f;
+
     private bool has_game = true;
 
     private string continue_scene;
 
     private bool main_input = true;
     private bool newgame_input = false;
+
+    private bool debouncing_dpad = false;
+    private bool debouncing_lstick = false;
 
     void Start(){
         //PlayerPrefs.SetString("current_scene", "GameStartArea");
@@ -61,13 +67,18 @@ public class MainMenu : MonoBehaviour
     void Update(){
         if (this.main_input){
             // handle the "go" key, whatever it may be
-            if (PauseKeyPressed()){
+            if (GoKeyPressed()){
                 if (this.cursor_pos == 0){
                     SceneManager.LoadScene(this.continue_scene);
                 } else if (this.cursor_pos == 1){
-                    this.newgame_menu.SetActive(true);
-                    this.main_input = false;
-                    this.newgame_input = true;
+                    if (!this.has_game){
+                        PlayerPrefs.DeleteAll();
+                        SceneManager.LoadScene("GameStartArea");
+                    } else {
+                        this.newgame_menu.SetActive(true);
+                        this.main_input = false;
+                        this.newgame_input = true;
+                    }
                 } else if (this.cursor_pos == 2){
                     
                 } else if (this.cursor_pos == 3){
@@ -98,9 +109,9 @@ public class MainMenu : MonoBehaviour
                 HandleSelection();
             }
         } else if (this.newgame_input){
-            if (PauseKeyPressed()){
+            if (GoKeyPressed()){
                 if (this.newgame_cursor_pos == 0){
-                    PlayerPrefs.SetString("current_scene", "GameStartArea");
+                    PlayerPrefs.DeleteAll();
                     SceneManager.LoadScene("GameStartArea");
                 } else if (this.newgame_cursor_pos == 1){
                     this.main_input = true;
@@ -112,8 +123,23 @@ public class MainMenu : MonoBehaviour
             
             if (DownKeyPressed() || UpKeyPressed()){
                 this.newgame_cursor_pos = (this.newgame_cursor_pos + 1) % 2;
-                Debug.Log(this.newgame_cursor_pos);
                 HandleSelection();
+            }
+        }
+
+        if (this.debouncing_dpad){
+            if (Input.GetAxis("Vertical") < this.up_thresh && Input.GetAxis("Vertical") > this.down_thresh){
+                if (Input.GetAxis("Horizontal") < this.up_thresh && Input.GetAxis("Horizontal") > this.down_thresh){
+                    this.debouncing_dpad = false;
+                }
+            }
+        }
+        
+        if (this.debouncing_lstick){
+            if (Input.GetAxis("axy") < this.up_thresh && Input.GetAxis("axy") > this.down_thresh){
+                if (Input.GetAxis("axx") < this.up_thresh && Input.GetAxis("axx") > this.down_thresh){
+                    this.debouncing_lstick = false;
+                }
             }
         }
     }
@@ -171,15 +197,31 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    bool PauseKeyPressed(){
-        return Input.GetButtonDown("b7") || Input.GetKeyDown(KeyCode.Return);
+    bool GoKeyPressed(){
+        return Input.GetButtonDown("b0") || Input.GetKeyDown(KeyCode.Return);
     }
 
     bool DownKeyPressed(){
+        if (!this.debouncing_dpad && (Input.GetAxis("Vertical") < this.down_thresh || Input.GetAxis("Horizontal") > this.up_thresh)){
+            this.debouncing_dpad = true;
+            return true;
+        }
+        if (!this.debouncing_lstick && (Input.GetAxis("axy") > this.up_thresh || Input.GetAxis("axx") > this.up_thresh)){
+            this.debouncing_lstick = true;
+            return true;
+        }
         return Input.GetKeyDown(KeyCode.DownArrow);
     }
     
     bool UpKeyPressed(){
+        if (!this.debouncing_dpad && (Input.GetAxis("Vertical") > this.up_thresh || Input.GetAxis("Horizontal") < this.down_thresh)){
+            this.debouncing_dpad = true;
+            return true;
+        }
+        if (!this.debouncing_lstick && (Input.GetAxis("axy") < this.down_thresh || Input.GetAxis("axx") < this.down_thresh)){
+            this.debouncing_lstick = true;
+            return true;
+        }
         return Input.GetKeyDown(KeyCode.UpArrow);
     }
 }

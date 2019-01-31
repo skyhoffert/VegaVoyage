@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3538685736101514360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.95, y: 1.24, z: -1}
+  m_LocalPosition: {x: 2.95, y: 1.24, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,6 +96,9 @@ MonoBehaviour:
   health: 10
   destroy_particles: {fileID: 2963318880136269469, guid: 9ffa79e8e7c0f104c8c570fa81a73308,
     type: 3}
+  currency_type: 0
+  currency_amount: 1
+  destroy_objects: []
 --- !u!61 &3538685736101514340
 BoxCollider2D:
   m_ObjectHideFlags: 0

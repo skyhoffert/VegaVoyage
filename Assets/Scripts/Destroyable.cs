@@ -15,6 +15,8 @@ public class Destroyable : MonoBehaviour
 
     private GameObject player;
 
+    public GameObject[] destroy_objects;
+
     // Start is called before the first frame update
     void Start(){
         this.player = GameObject.FindWithTag("Player");
@@ -30,6 +32,10 @@ public class Destroyable : MonoBehaviour
 
             if (this.currency_type == 0){
                 this.player.SendMessage("AddUpgradeCurrency", this.currency_amount);
+            }
+
+            for (int i = 0; i < destroy_objects.Length; i++){
+                Destroy(destroy_objects[i].gameObject);
             }
         }
     }

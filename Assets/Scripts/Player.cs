@@ -286,11 +286,24 @@ public class Player : MonoBehaviour
         if (this.dash_enabled){
             if (Input.GetButtonDown("b2")){
                 LayerMask mask = LayerMask.GetMask("FarFG");
-                RaycastHit2D hit = Physics2D.Raycast(this.laser_renderer.transform.position, this.forward, this.dash_magnitude, mask);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, this.forward, this.dash_magnitude, mask);
 
-                // TODO - needs to be fixed, can't dash through objects to other side
-                if (hit.collider == null || hit.collider.isTrigger){
-                    this.transform.position += new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
+                bool fail = false;
+                Vector3 topoint = this.transform.position + new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
+                for (int i = 0; i < hits.Length; i++){
+                    if (hits[i].collider.isTrigger){
+                        Debug.Log("trigger detected");
+                        continue;
+                    }
+                    
+                    if (hits[i].collider.OverlapPoint(new Vector2(topoint.x, topoint.y))){
+                        Debug.Log("bounded by " + i);
+                        fail = true;
+                    }
+                }
+
+                if (!fail){
+                    this.transform.position = topoint;
                     this.rb2d.velocity = this.rb2d.velocity.magnitude * this.forward;
                 }
             }

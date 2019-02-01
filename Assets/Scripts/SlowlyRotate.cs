@@ -5,7 +5,7 @@ using UnityEngine;
 public class SlowlyRotate : MonoBehaviour
 {
 
-    private float rot_amount = 8.0f;
+    private float rot_amount = 18.0f;
 
     // Update is called once per frame
     void Update(){

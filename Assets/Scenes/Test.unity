@@ -2636,5 +2636,10 @@ PrefabInstance:
       propertyPath: upgrade_text
       value: 
       objectReference: {fileID: 1607157956}
+    - target: {fileID: 3288290498072768477, guid: e9bd272247004694fa3e3a6ce560017f,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9bd272247004694fa3e3a6ce560017f, type: 3}

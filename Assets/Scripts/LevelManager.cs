@@ -93,7 +93,6 @@ public class LevelManager : MonoBehaviour
             // input handling
             if (QuitKeyPressed()){
                 TogglePause();
-                SceneManager.LoadScene("MainMenu");
             } else if (ResetKeyPressed()){
                 // load current scene name that has been saved
                 string scene_name = PlayerPrefs.GetString("current_scene", "");

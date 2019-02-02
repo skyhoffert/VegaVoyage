@@ -16,6 +16,11 @@ public class MainMenu : MonoBehaviour
     public Text newgame_0;
     public Text newgame_1;
 
+    public GameObject exhausts;
+    public GameObject center_of_scout_ships;
+
+    public Image blackout;
+
     private int newgame_cursor_pos = 1;
 
     private int cursor_pos = 0;
@@ -35,6 +40,12 @@ public class MainMenu : MonoBehaviour
 
     private bool main_input = true;
     private bool newgame_input = false;
+    private bool newgame_pressed = false;
+
+    private float newgame_pressed_tm = 0.0f;
+    private float exhaust_startup_duration = 1.0f;
+    private float newgame_pressed_duration = 2.5f;
+    private float stf = 5.0f;
 
     private bool debouncing_dpad = false;
     private bool debouncing_lstick = false;
@@ -52,6 +63,8 @@ public class MainMenu : MonoBehaviour
             Color c1 = this.txt_0.color;
             c1.a = 0.0f;
             this.txt_0.color = c1;
+        } else {
+            this.center_of_scout_ships.SetActive(false);
         }
 
         this.newgame_menu.SetActive(false);
@@ -62,6 +75,8 @@ public class MainMenu : MonoBehaviour
         this.newgame_1.color = c2;
 
         HandleSelection();
+
+        this.exhausts.SetActive(false);
     }
 
     void Update(){
@@ -73,7 +88,10 @@ public class MainMenu : MonoBehaviour
                 } else if (this.cursor_pos == 1){
                     if (!this.has_game){
                         PlayerPrefs.DeleteAll();
-                        SceneManager.LoadScene("GameStartArea");
+                        this.newgame_pressed = true;
+                        this.main_input = false;
+                        this.newgame_input = false;
+                        this.exhausts.SetActive(true);
                     } else {
                         this.newgame_menu.SetActive(true);
                         this.main_input = false;
@@ -112,7 +130,12 @@ public class MainMenu : MonoBehaviour
             if (GoKeyPressed()){
                 if (this.newgame_cursor_pos == 0){
                     PlayerPrefs.DeleteAll();
-                    SceneManager.LoadScene("GameStartArea");
+                    this.center_of_scout_ships.SetActive(true);
+                    this.newgame_pressed = true;
+                    this.main_input = false;
+                    this.newgame_input = false;
+                    this.exhausts.SetActive(true);
+                    this.newgame_menu.SetActive(false);
                 } else if (this.newgame_cursor_pos == 1){
                     this.main_input = true;
                     this.newgame_input = false;
@@ -125,6 +148,18 @@ public class MainMenu : MonoBehaviour
                 this.newgame_cursor_pos = (this.newgame_cursor_pos + 1) % 2;
                 HandleSelection();
             }
+        } else if (this.newgame_pressed){
+            this.newgame_pressed_tm += Time.deltaTime;
+            if (this.newgame_pressed_tm < this.exhaust_startup_duration){
+            } else if (this.newgame_pressed_tm < this.exhaust_startup_duration + this.newgame_pressed_duration){
+                this.center_of_scout_ships.transform.Translate(Time.deltaTime * this.stf, 0, 0);
+            } else {
+                SceneManager.LoadScene("Cutscene_Intro");
+            }
+
+            Color c = this.blackout.color;
+            c.a = Mathf.Pow(this.newgame_pressed_tm / (this.newgame_pressed_duration + this.exhaust_startup_duration), 2);
+            this.blackout.color = c;
         }
 
         if (this.debouncing_dpad){

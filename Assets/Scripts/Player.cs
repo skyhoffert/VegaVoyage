@@ -6,16 +6,17 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     // hold state information about player
-    private bool thrust_enabled;
-    private bool turn_enabled;
-    private bool plasmaball_enabled;
-    private bool damage_enabled;
-    private bool heal_enabled;
-    private bool iframes_enabled;
-    private bool shield_rechage_enabled;
-    private bool dash_enabled;
-    private bool laser_enabled;
-    private bool paused;
+    private bool thrust_enabled = true;
+    private bool turn_enabled = true;
+    private bool plasmaball_enabled = true;
+    private bool damage_enabled = true;
+    private bool heal_enabled = true;
+    private bool iframes_enabled = true;
+    private bool shield_rechage_enabled = true;
+    private bool dash_enabled = true;
+    private bool laser_enabled = true;
+    private bool paused = false;
+    private bool slow_enabled = true;
 
     public TrailRenderer trail;
 
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
 
     public GameObject laser_charge;
 
-    public GameObject laser_renderer;
+    public LineRenderer laser_renderer;
 
     public GameObject sp1;
     public GameObject sp1_missing;
@@ -55,12 +56,12 @@ public class Player : MonoBehaviour
     private float plasmaball_firetime = 0.0f;
     private float plasmaball_cooldown = 0.7f;
     private bool plasmaball_ready = true;
-    private float plasmaball_spawnoffsetfactor = 0.8f;
+    private float plasmaball_spawnoffsetfactor = 1.0f;
 
     private float laser_damage = 3.8f;
     private bool laser_firing = false;
     private bool laser_charging = false;
-    private float laser_range = 5.0f;
+    private float laser_range = 7.0f;
     private float laser_renderer_increasefactor = 1.2f;
     private float laser_chargetime = 0.5f;
     private float laser_duration = 2.5f;
@@ -71,12 +72,14 @@ public class Player : MonoBehaviour
 
     private float dash_magnitude = 2.0f;
 
+    private float slow_factor = 0.1f;
+
     private float thrust_emitrate = 20.0f;
     
     private Vector2 forward;
     
-    private float shield_points;
-    private float max_shield_points;
+    private float shield_points = 1;
+    private float max_shield_points = 1;
 
     private int currency_upgrade_amt = 0;
 
@@ -88,21 +91,12 @@ public class Player : MonoBehaviour
     private float shield_recharge_time = 5.0f;
     private float latest_damage_time = 0.0f;
 
+    // handles frame after unpausing to prevent unwanted behavior
+    private bool just_unpaused = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        // start off being able to move
-        this.thrust_enabled = true;
-        this.turn_enabled = true;
-        this.plasmaball_enabled = true;
-        this.damage_enabled = true;
-        this.heal_enabled = true;
-        this.iframes_enabled = false;
-        this.shield_rechage_enabled = true;
-        this.dash_enabled = true;
-        this.laser_enabled = true;
-        this.paused = false;
-
         // calculate forward direction
         this.forward.x = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
         this.forward.y = -Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI/2);
@@ -111,9 +105,6 @@ public class Player : MonoBehaviour
         this.exhaust.SetActive(false);
 
         this.rb2d = GetComponent<Rigidbody2D>();
-
-        this.max_shield_points = 1;
-        this.shield_points = this.max_shield_points;
         
         var emission = this.particle_system.emission;
         emission.rateOverTime = 0;
@@ -129,6 +120,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (this.paused){
+            this.just_unpaused = true;
+            return;
+        } else if (this.just_unpaused){
+            this.just_unpaused = false;
             return;
         }
 
@@ -175,11 +170,12 @@ public class Player : MonoBehaviour
                 emission.rateOverTime = this.thrust_emitrate;
             } else if (ax3 < -0.1){
                 // if left trigger is being pressed
-                // TODO - this probably won't be in the game
-                this.rb2d.AddForce(-this.forward * this.thrust_force / 2);
-                
-                var emission = this.particle_system.emission;
-                emission.rateOverTime = 0;
+                if (this.slow_enabled){
+                    this.rb2d.AddForce(-this.rb2d.velocity * this.thrust_force * this.slow_factor);
+                    
+                    var emission = this.particle_system.emission;
+                    emission.rateOverTime = 0;
+                }
             } else {
                 if (this.exhaust.activeSelf){
                     this.exhaust.SetActive(false);
@@ -237,7 +233,7 @@ public class Player : MonoBehaviour
                 if (this.laser_firing){
                     this.laser_firing = false;
                     
-                    this.laser_renderer.SetActive(false);
+                    this.laser_renderer.gameObject.SetActive(false);
 
                     this.max_velocity = max_velocity_cap;
                     this.thrust_force = max_thrust_force;
@@ -256,9 +252,12 @@ public class Player : MonoBehaviour
         if (this.laser_charging){
             if (Time.time - this.laser_firetime > this.laser_chargetime){
                     this.laser_renderer.transform.localScale = new Vector3(this.laser_range * this.laser_renderer_increasefactor, 1, 1);
-                    this.laser_renderer.SetActive(true);
+                    this.laser_renderer.gameObject.SetActive(true);
                     this.laser_firing = true;
                     this.laser_charging = false;
+                    Vector3 scale = this.laser_renderer.gameObject.transform.localScale;
+                    scale.x = this.laser_range;
+                    this.laser_renderer.gameObject.transform.localScale = scale;
             }
         }
 
@@ -275,7 +274,7 @@ public class Player : MonoBehaviour
             if (Time.time - this.laser_firetime > this.laser_duration){
                 this.laser_firing = false;
 
-                this.laser_renderer.SetActive(false);
+                this.laser_renderer.gameObject.SetActive(false);
 
                 this.max_velocity = max_velocity_cap;
                 this.thrust_force = max_thrust_force;
@@ -292,12 +291,10 @@ public class Player : MonoBehaviour
                 Vector3 topoint = this.transform.position + new Vector3(this.forward.x, this.forward.y, 0) * this.dash_magnitude;
                 for (int i = 0; i < hits.Length; i++){
                     if (hits[i].collider.isTrigger){
-                        Debug.Log("trigger detected");
                         continue;
                     }
                     
                     if (hits[i].collider.OverlapPoint(new Vector2(topoint.x, topoint.y))){
-                        Debug.Log("bounded by " + i);
                         fail = true;
                     }
                 }

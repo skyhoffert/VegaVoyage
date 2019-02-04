@@ -5033,7 +5033,7 @@ Transform:
   m_GameObject: {fileID: 8353142031099102277}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 8353142032339104349}
   m_RootOrder: 0
@@ -5075,7 +5075,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 35ff17105e88ec74589c6a4c5a3fe3a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d1be944db24e3ed4ebc43e72ef26aad5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5193,7 +5193,7 @@ Transform:
   m_GameObject: {fileID: 8353142032339104348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children:
   - {fileID: 8353142031099102274}
   - {fileID: 8353142031541009261}
@@ -5249,13 +5249,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.24080327, y: 0.37279132}
-      - {x: -0.3227767, y: 0.32653496}
-      - {x: -0.11010721, y: 0.003791988}
-      - {x: -0.32498053, y: -0.33378598}
-      - {x: -0.24220242, y: -0.3784242}
-      - {x: 0.2932215, y: -0.07375389}
-      - {x: 0.29490286, y: 0.08939746}
+    - - {x: -0.24439475, y: 0.35123107}
+      - {x: -0.36946595, y: 0.30138135}
+      - {x: -0.39024267, y: -0.0033947537}
+      - {x: -0.3680783, y: -0.29785228}
+      - {x: -0.2457939, y: -0.34608382}
+      - {x: 0.21052516, y: -0.17225373}
+      - {x: 0.32816142, y: -0.0014794851}
+      - {x: 0.20870723, y: 0.172045}
 --- !u!114 &8353142032339104344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5280,7 +5281,7 @@ MonoBehaviour:
     type: 3}
   laser_charge: {fileID: 2195068736386041949, guid: 5ba3ae5c1c4a469488a4edc4cda35096,
     type: 3}
-  laser_renderer: {fileID: 3604249636196688859}
+  laser_renderer: {fileID: 3288290498072768477}
   sp1: {fileID: 0}
   sp1_missing: {fileID: 0}
   upgrade_text: {fileID: 0}

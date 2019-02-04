@@ -6,7 +6,7 @@ using UnityEngine;
 public class SplashScreen : MonoBehaviour
 {
 
-    private float increase = 0.1f;
+    private float increase = 0.06f;
 
     private float start_time = 0.0f;
 
